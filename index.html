@@ -123,9 +123,16 @@
     margin-bottom:4px;color:#5a4f68;font-weight:500;
   }
   .ex-row{
-    display:grid;grid-template-columns:24px 1fr 62px 84px 22px;gap:6px;
-    align-items:center;margin-bottom:6px;
+    display:grid;grid-template-columns:22px 1fr 20px;gap:8px;
+    align-items:flex-start;margin-bottom:10px;
   }
+  .ex-main{min-width:0;}
+  .ex-name{width:100%;margin-bottom:4px;}
+  .ex-sub{display:flex;gap:6px;align-items:center;}
+  .ex-sub .lab{font-size:.6rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0;}
+  .ex-reps{width:64px;flex-shrink:0;}
+  .ex-weight{flex:1;min-width:0;}
+  .ex-row .extick,.ex-row .exdel{margin-top:8px;}
   .ex-row input{
     width:100%;border:1.5px solid #ece5f3;border-radius:9px;padding:7px 8px;
     font-family:inherit;font-size:.78rem;color:var(--ink);background:#fdfcff;
@@ -513,13 +520,22 @@
             };
             row.appendChild(et);
 
-            ['name','reps','weight'].forEach(function(f){
+            var main=document.createElement('div');main.className='ex-main';
+            var nameInp=document.createElement('input');
+            nameInp.type='text';nameInp.className='ex-name';nameInp.value=ex.name;
+            nameInp.oninput=function(){ex.name=nameInp.value;save(PLAN_KEY,plan);};
+            main.appendChild(nameInp);
+
+            var subrow=document.createElement('div');subrow.className='ex-sub';
+            [['reps','Reps','ex-reps'],['weight','Weight','ex-weight']].forEach(function(f){
+              var lab=document.createElement('span');lab.className='lab';lab.textContent=f[1];
               var inp=document.createElement('input');
-              inp.type='text';
-              inp.value=ex[f];
-              inp.oninput=function(){ex[f]=inp.value;save(PLAN_KEY,plan);};
-              row.appendChild(inp);
+              inp.type='text';inp.className=f[2];inp.value=ex[f[0]];
+              inp.oninput=function(){ex[f[0]]=inp.value;save(PLAN_KEY,plan);};
+              subrow.appendChild(lab);subrow.appendChild(inp);
             });
+            main.appendChild(subrow);
+            row.appendChild(main);
 
             var del=document.createElement('button');
             del.className='exdel';del.textContent='✕';del.title='Remove exercise';
