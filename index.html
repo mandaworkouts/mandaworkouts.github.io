@@ -118,6 +118,10 @@
     color:var(--accent);margin-bottom:2px;
   }
   .block-note{font-size:.7rem;color:var(--muted);margin-bottom:6px;font-style:italic;}
+  .wu-item{
+    font-size:.76rem;padding:5px 10px;background:#f4f0fa;border-radius:8px;
+    margin-bottom:4px;color:#5a4f68;font-weight:500;
+  }
   .ex-row{
     display:grid;grid-template-columns:24px 1fr 62px 84px 22px;gap:6px;
     align-items:center;margin-bottom:6px;
@@ -271,6 +275,15 @@
 
   var CALF_SCHEME='15s hold + 5 lift + 5 dbl-ecc';
 
+  var WARMUP_OPTIONS=[
+    'Rotator band warmup',
+    'Inchworm to world’s greatest stretch',
+    'Side plank abduction',
+    'Airplane RDL warmup',
+    'Bag drag',
+    'ON TOES farmers carry'
+  ];
+
   var DEFAULT_PLAN={sessions:[
     {id:'strengthA',emoji:'💪',name:'Full Body 1',type:'gym',blocks:[
       {label:'Superset 1 · ×2 rounds',note:'Warm-up first: deep barbell squat 2×12',exercises:[
@@ -287,7 +300,8 @@
         {name:'Single-Arm Press (heavy)',reps:'6',weight:'10kg'}
       ]},
       {label:'Finisher · 45-15 or 60-30 track',note:'',exercises:[
-        {name:'Ski Erg HARD or Burpee Box Jumps',reps:'1 track',weight:'—'}
+        {name:'Ski Erg HARD or Burpee Box Jumps',reps:'1 track',weight:'—'},
+        {name:'KB Box Plyo Calf Hops',reps:'1 track',weight:'—'}
       ]}
     ]},
     {id:'strengthB',emoji:'🏋️‍♀️',name:'Full Body 2',type:'gym',blocks:[
@@ -305,7 +319,8 @@
         {name:'Single-Arm Press (hold both)',reps:'8',weight:'9kg'}
       ]},
       {label:'Finisher · 45-15 or 60-30 track',note:'',exercises:[
-        {name:'Ski Erg HARD or Burpee Box Jumps',reps:'1 track',weight:'—'}
+        {name:'Ski Erg HARD or Burpee Box Jumps',reps:'1 track',weight:'—'},
+        {name:'KB Box Plyo Calf Hops',reps:'1 track',weight:'—'}
       ]}
     ]},
     {id:'tempo',emoji:'🔥',name:'Tempo Run + Mini HYROX',type:'cardio',runKey:'tempo',hasOptions:true},
@@ -363,6 +378,17 @@
   var WEEK_KEY='manda-ticks-'+monday.getFullYear()+'-'+String(monday.getMonth()+1).padStart(2,'0')+'-'+String(monday.getDate()).padStart(2,'0');
 
   var plan=load(PLAN_KEY,null)||JSON.parse(JSON.stringify(DEFAULT_PLAN));
+
+  /* gentle migration: make sure saved plans get the calf hops finisher */
+  plan.sessions.forEach(function(s){
+    if(s.type==='gym'&&s.blocks&&s.blocks.length){
+      var fin=s.blocks[s.blocks.length-1];
+      var has=fin.exercises.some(function(e){return /calf hops/i.test(e.name);});
+      if(!has)fin.exercises.push({name:'KB Box Plyo Calf Hops',reps:'1 track',weight:'—'});
+    }
+  });
+  save(PLAN_KEY,plan);
+
   var ticks=load(WEEK_KEY,{done:{},ex:{}});
   var planWeek=load(WEEKSEL_KEY,2);
   if(!RUN_WEEKS[planWeek])planWeek=2;
@@ -450,6 +476,19 @@
       if(s.type==='gym'){
         var exbox=document.createElement('div');
         exbox.className='exercises'+(openCards[s.id]?' open':'');
+
+        /* warm-up pick list */
+        var wu=document.createElement('div');wu.className='block';
+        var wul=document.createElement('div');wul.className='block-label';
+        wul.textContent='Warm-up · pick what you fancy';
+        wu.appendChild(wul);
+        var wuList=document.createElement('div');
+        WARMUP_OPTIONS.forEach(function(o){
+          var it=document.createElement('div');it.className='wu-item';it.textContent=o;
+          wuList.appendChild(it);
+        });
+        wu.appendChild(wuList);
+        exbox.appendChild(wu);
 
         s.blocks.forEach(function(blk,bi){
           var bdiv=document.createElement('div');bdiv.className='block';
