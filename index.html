@@ -79,6 +79,20 @@
   }
   .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(236,72,153,.35);}
   .wk-focus{font-size:.72rem;color:var(--muted);text-align:center;margin-top:8px;font-weight:500;}
+  .chips.wrap{flex-wrap:wrap;gap:6px;}
+  .chips.wrap .chip{flex:0 0 calc(25% - 5px);padding:7px 2px;font-size:.76rem;}
+  .daytag{
+    display:inline-block;font-size:.6rem;font-weight:800;text-transform:uppercase;
+    letter-spacing:.6px;color:var(--accent);background:#fdf3f8;border-radius:6px;
+    padding:2px 6px;margin-bottom:3px;
+  }
+  .card.raceday{background:linear-gradient(135deg,#fff7ed,#fdf3f8);border-color:var(--accent);}
+  .card.raceday .titlebox .name{color:var(--accent);font-weight:800;}
+  .wk-note{
+    background:#fdf3f8;border-radius:12px;padding:10px 12px;margin-bottom:12px;
+    font-size:.72rem;line-height:1.6;color:#5a4f68;
+  }
+  .wk-note b{color:var(--accent);}
 
   /* ---------- Session cards ---------- */
   .hint{font-size:.75rem;color:var(--muted);text-align:center;margin-bottom:12px;}
@@ -211,7 +225,7 @@
 <div class="wrap">
   <div class="tabs">
     <button class="tab active" id="tabCurrent">5K PB Block</button>
-    <button class="tab" id="tabHyrox">🏝️ HYROX Block</button>
+    <button class="tab" id="tabHyrox">🏁 HYROX Block</button>
   </div>
 
   <div id="currentView">
@@ -256,22 +270,44 @@
     </div>
   </div>
 
-  <div class="coming-soon" id="hyroxView">
-    <h2>🏝️ Post-Holiday HYROX Block</h2>
-    <p>Week 6 = Greece = deload. No plan needed — the pool is the plan. 🇬🇷</p>
-    <div style="text-align:left;background:#fdf3f8;border-radius:12px;padding:14px 16px;margin-top:14px;">
-      <div style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);margin-bottom:8px;">The weekly shape (any order)</div>
-      <div style="font-size:.82rem;line-height:2;">
-        🦵 Lower body gym<br>
-        💪 Upper body gym<br>
-        🌿 Easy long run<br>
-        🏃 Easy run<br>
-        🥵 HYROX compromised workout<br>
-        🎯 HYROX station workout<br>
-        😴 Rest day ×2
-      </div>
+  <div id="hyroxView" style="display:none;">
+    <div class="weeksel">
+      <div class="wk-title">🏁 HYROX block · race Sun 1 Nov</div>
+      <div class="chips wrap" id="hxChips"></div>
+      <div class="wk-focus" id="hxFocus"></div>
     </div>
-    <p style="margin-top:14px;">Details get built the week before Greece — reminder's set. ✅</p>
+    <div id="hxNote"></div>
+    <div id="hxSessions"></div>
+
+    <details class="notes">
+      <summary>📖 Ordering rules — how to lay the week out</summary>
+      <div class="notes-body">
+        <h3>The big one</h3>
+        <ul>
+          <li>🏃 <b>Never two running days back to back.</b> Long Run, Tempo and Compromised are the three that drain you — spread them 2–3 days apart</li>
+        </ul>
+        <h3>Rest days</h3>
+        <ul>
+          <li>😴 Always rest the day <b>after</b> Compromised — no running on wrecked legs</li>
+          <li>💪 That same rest day sets up HYROX day fresh for heavy sleds</li>
+          <li>📏 Keep your two rest days ~3 days apart, not bunched</li>
+        </ul>
+        <h3>Gym</h3>
+        <ul>
+          <li>🔥 Tempo sits fine the day after Lower — never the day before HYROX day</li>
+          <li>🦵 Lower can sit next to Compromised: its conditioning is ski/row/bike, so it isn't adding running load</li>
+        </ul>
+        <h3>A layout that works</h3>
+        <ul>
+          <li>Long Run → Lower → Compromised → Rest → HYROX &amp; Upper → Tempo → Rest</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="foot">
+      <p>Ticks reset automatically every Monday — weights &amp; reps stay saved. ✅</p>
+      <button class="resetbtn" id="hxResetWeek">Reset this week's ticks</button>
+    </div>
   </div>
 </div>
 
@@ -587,6 +623,381 @@
     }
   };
 
+  /* ================= HYROX BLOCK ================= */
+  var HX_PLAN_KEY='manda-hyrox-plan-v2';
+  var HX_WEEKSEL_KEY='manda-hyrox-week';
+  var HX_START=new Date(2026,7,17);   /* Mon 17 Aug 2026 */
+  var HX_TOTAL=11;
+
+  var LOWER_WARM=[
+    'Inchworm to world’s greatest stretch',
+    'Side plank abduction',
+    'Airplane RDL warmup',
+    'Bag drag',
+    'ON TOES farmers carry'
+  ];
+  var HYROX_WARM=[
+    'Inchworm to world’s greatest stretch',
+    'Side plank abduction',
+    'Light DB goblet squat 3×15 — speed + full ROM, 30s rest',
+    'Toes farmers carry',
+    'Plank bag drag or KB horn holds',
+    'Heavy calf combo'
+  ];
+
+  var HX_SUPERSET={label:'Superset',note:'',exercises:[
+    {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'},
+    {name:'DB Thruster 3×10 or Rotation Thrusters 3×6',reps:'—',weight:'9kg'}
+  ]};
+  var HX_AMRAP={label:'Conditioning · 15-min AMRAP',note:'',exercises:[
+    {name:'SKI',reps:'20 kcal',weight:'—'},
+    {name:'ROW',reps:'20 kcal',weight:'—'},
+    {name:'ECHO bike',reps:'20 kcal',weight:'—'},
+    {name:'Wall balls',reps:'15',weight:'—'}
+  ]};
+
+  var HX_GYM_DEFAULT={
+    lowerA:{warmup:LOWER_WARM,blocks:[
+      {label:'Strength · Week A',note:'',exercises:[
+        {name:'Barbell Squat (deep)',reps:'4×5',weight:'35kg'},
+        {name:'Lateral Step-Up',reps:'2×6–8 e/s',weight:'heavy'},
+        {name:'SL RDL',reps:'2×6–8 e/s',weight:'9kg'}
+      ]},
+      JSON.parse(JSON.stringify(HX_SUPERSET)),
+      JSON.parse(JSON.stringify(HX_AMRAP))
+    ]},
+    lowerB:{warmup:LOWER_WARM,blocks:[
+      {label:'Strength · Week B',note:'',exercises:[
+        {name:'Sumo Deadlift',reps:'4×5',weight:'~45kg'},
+        {name:'Split Squats with Rotation',reps:'2×6–8 e/s',weight:'2×9kg'},
+        {name:'SL Hip Thrust',reps:'2×6–8 e/s',weight:'—'}
+      ]},
+      JSON.parse(JSON.stringify(HX_SUPERSET)),
+      JSON.parse(JSON.stringify(HX_AMRAP))
+    ]},
+    hyrox:{warmup:HYROX_WARM,blocks:[
+      {label:'HYROX Strength',note:'',exercises:[
+        {name:'Sled Push 20m',reps:'4 ×',weight:'> race wt, 60s rest'},
+        {name:'Sled Pull 20m',reps:'3 ×',weight:'> race wt, 60s rest'},
+        {name:'Walking Lunges',reps:'2 × 2 min',weight:'heavy KB e/s'},
+        {name:'Burpee Box Jumps',reps:'4 × 1 min',weight:'—'}
+      ]},
+      {label:'Upper · Superset 1',note:'',exercises:[
+        {name:'Single Arm Lat Pulldown (L29)',reps:'3×5 e/s',weight:''},
+        {name:'Single Arm Overhead Press',reps:'3×5 e/s',weight:''}
+      ]},
+      {label:'Upper · Superset 2',note:'',exercises:[
+        {name:'Lunge Hold and Row (L17)',reps:'3×5',weight:''},
+        {name:'Eccentric Pull-Ups (max) or KB Rotation Gorilla Row',reps:'3×5',weight:''}
+      ]},
+      {label:'15 min Cardio Mix',note:'',exercises:[
+        {name:'Rower / Ski Erg / Bike or Air Bike',reps:'15 min',weight:'—'}
+      ]}
+    ]}
+  };
+
+  var hxGym=load(HX_PLAN_KEY,null)||JSON.parse(JSON.stringify(HX_GYM_DEFAULT));
+  var hxWeek=load(HX_WEEKSEL_KEY,1);
+  if(hxWeek<1||hxWeek>HX_TOTAL)hxWeek=1;
+  var hxOpen={};
+
+  var HX_COMP={
+    1:{r:'2 rounds',b:'25m'},2:{r:'2 rounds',b:'25m'},
+    3:{r:'3 rounds',b:'20m'},4:{r:'3 rounds',b:'20m'},5:{r:'3 rounds',b:'20m'},
+    7:{r:'2 rounds',b:'25m'},
+    8:{r:'3–4 rounds',b:'20m'},9:{r:'3–4 rounds',b:'20m'},10:{r:'3–4 rounds',b:'20m'}
+  };
+
+  function compLines(n){
+    var c=HX_COMP[n]||{r:'2 rounds',b:'25m'};
+    return [
+      '800m run — strong / continuous',
+      '20 wall balls',
+      '20 front rack DB walking lunges',
+      '400m run — faster than race pace',
+      c.b+' burpee broad jumps',
+      '⏸ 2 min rest',
+      '20 wall balls',
+      '20 front rack DB walking lunges',
+      '400m run — faster than race pace',
+      c.b+' burpee broad jumps',
+      '↻ '+c.r+' — the 800m opens every round'
+    ];
+  }
+  var HX_TEMPO={1:20,2:22,3:24,4:26,5:28,7:20,8:26,9:28,10:30};
+
+  function tempoLines(n){
+    var m=HX_TEMPO[n]||20;
+    var extra=(n===7)?' — easing back after the doubles':'';
+    return [
+      m+' min tempo run @ 5:15–5:20/km'+extra,
+      '— core × 3, 60s rest —',
+      'Side plank 30s × 2',
+      'High plank shoulder taps 30s × 2',
+      'Side plank abductions 30s × 2 e/s'
+    ];
+  }
+
+  function hxDates(n){
+    var s=new Date(HX_START);s.setDate(s.getDate()+(n-1)*7);
+    var e=new Date(s);e.setDate(e.getDate()+6);
+    var f={day:'numeric',month:'short'};
+    return s.toLocaleDateString('en-GB',f)+' – '+e.toLocaleDateString('en-GB',f);
+  }
+
+  function hxBuild(n){
+    var comp=HX_COMP[n]||{r:'2 rounds'};
+    var letter=(n%2===1)?'A':'B';
+    var lowerKey=(letter==='A')?'lowerA':'lowerB';
+
+    if(n===6){
+      return {focus:'🏁 Doubles race week — you still run the full 8km',
+        note:'Race week. Nothing heavy after Tuesday — you want the patterns fresh, not the legs tired. Tempo and Compromised both come out; the race covers your intensity.',
+        sessions:[
+          {day:'Mon',id:'w6run',emoji:'🌿',name:'Easy Run',type:'detail',lines:['40 min Zone 2 — shortened long run']},
+          {day:'Tue',id:'w6low',emoji:'🦵',name:'Lower Strength — reduced',type:'gym',gym:lowerKey,
+           note:'⚠️ 2 sets not 4 · moderate load · skip the AMRAP'},
+          {day:'Wed',id:'w6r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Thu',id:'w6hx',emoji:'🎯',name:'HYROX & Upper — technique only',type:'gym',gym:'hyrox',
+           note:'⚠️ Sleds at or below race weight, 2×20m only · upper at half volume · skip the cardio mix'},
+          {day:'Fri',id:'w6r2',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Sat',id:'w6race',emoji:'🏁',name:'HYROX DOUBLES',type:'race',
+           lines:['Full 8km running — stations split with your partner','Go and enjoy it 💪']},
+          {day:'Sun',id:'w6r3',emoji:'🛁',name:'Rest Day',type:'rest'}
+        ]};
+    }
+
+    if(n===11){
+      return {focus:'🎯 Taper week — race Sunday 1 Nov',
+        note:'Hard work early, nothing but easing off after Wednesday. Keep every effort controlled — these are sharpeners, not sessions.',
+        sessions:[
+          {day:'Mon',id:'w11rrt',emoji:'🏁',name:'Race Run Through',type:'detail',lines:[
+            '1000m run @ race pace, then 3 rounds:',
+            '1 min ski','1 min sled push','1 min sled pull','1 min burpee BJ',
+            '2 min run','1 min row','1 min farmers carry','1 min sandbag lunge','1 min wall balls',
+            '⏸ Rest 2 min between rounds']},
+          {day:'Tue',id:'w11str',emoji:'💪',name:'Strength & 30 min Zone 2',type:'detail',lines:[
+            'Light full-body strength — well short of failure','30 min Zone 2 easy']},
+          {day:'Wed',id:'w11drop',emoji:'⚡',name:'Cardio Dropsets',type:'detail',lines:[
+            'Run – Ski – Row','1000m of each · rest 1–2 min','600m of each · rest 1–2 min',
+            '400m of each · rest 1–2 min','Bike easy 15–20 min',
+            '⚠️ Controlled efforts only — drop the 1000s if in doubt']},
+          {day:'Thu',id:'w11r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Fri',id:'w11easy',emoji:'🌿',name:'Easy Aerobic',type:'detail',lines:[
+            'Easy run / cycle / erg or a mix','20–30 min + a few strides. Keep it short']},
+          {day:'Sat',id:'w11r2',emoji:'🛁',name:'Rest Day',type:'rest'},
+          {day:'Sun',id:'w11race',emoji:'🏆',name:'RACE DAY',type:'race',
+           lines:['Everything you did in this block is already banked.','Km 1 controlled. Go get it. 🔥']}
+        ]};
+    }
+
+    var focus,note;
+    if(n===7){
+      focus='🔄 Easing back after the doubles';
+      note='Reduced, not wasted. Compromised drops to 2 rounds — swap it for an easy 40 min Z2 if the legs are still shot. Lower goes 3×5 at about 10% off.';
+    }else{
+      focus='Week '+n+' of 11 · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
+      note='';
+    }
+
+    var sess=[
+      {id:'hxlong',emoji:'🌿',name:'Long Run',type:'detail',lines:['60 min Zone 2']},
+      {id:'hxlow',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey,
+       note:(n===7?'⚠️ 3×5 this week, back off ~10%':'')},
+      {id:'hxcomp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(n),sub:comp.r},
+      {id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox',note:''},
+      {id:'hxtempo',emoji:'🔥',name:'Tempo Run & Core',type:'detail',lines:tempoLines(n),sub:(HX_TEMPO[n]||20)+' min tempo'},
+      {id:'hxr1',emoji:'😴',name:'Rest Day',type:'rest'},
+      {id:'hxr2',emoji:'🛁',name:'Rest Day',type:'rest'}
+    ];
+    return {focus:focus,note:note,sessions:sess};
+  }
+
+  function hxRenderChips(){
+    var c=document.getElementById('hxChips');
+    c.innerHTML='';
+    for(var i=1;i<=HX_TOTAL;i++){
+      (function(w){
+        var b=document.createElement('button');
+        b.className='chip'+(w===hxWeek?' active':'');
+        b.textContent=(w===11?'🏁':'W'+w);
+        b.onclick=function(){hxWeek=w;save(HX_WEEKSEL_KEY,w);hxOpen={};hxRenderChips();hxRender();};
+        c.appendChild(b);
+      })(i);
+    }
+    var wk=hxBuild(hxWeek);
+    var left=HX_TOTAL-hxWeek;
+    document.getElementById('hxFocus').textContent=
+      hxDates(hxWeek)+' · '+(left===0?'RACE WEEK 🏁':left+' week'+(left===1?'':'s')+' to race day');
+  }
+
+  function hxRender(){
+    var wk=hxBuild(hxWeek);
+    var nb=document.getElementById('hxNote');
+    nb.innerHTML='';
+    var fo=document.createElement('div');fo.className='wk-note';
+    fo.innerHTML='<b>'+wk.focus+'</b>'+(wk.note?'<br>'+wk.note:'');
+    nb.appendChild(fo);
+
+    var box2=document.getElementById('hxSessions');
+    box2.innerHTML='';
+
+    wk.sessions.forEach(function(s){
+      var key='hx-'+s.id;
+      var card=document.createElement('div');
+      card.className='card'+(s.type==='rest'?' rest':'')+(s.type==='race'?' raceday':'')+(ticks.done[key]?' done':'');
+
+      var head=document.createElement('div');head.className='card-head';
+      var em=document.createElement('div');em.className='emoji';em.textContent=s.emoji;
+      var tb=document.createElement('div');tb.className='titlebox';
+
+      if(s.day){
+        var dt=document.createElement('div');dt.className='daytag';dt.textContent=s.day;
+        tb.appendChild(dt);
+      }
+      var nm=document.createElement('div');nm.className='name';nm.textContent=s.name;
+      tb.appendChild(nm);
+
+      var expandable=(s.type==='gym'||s.type==='detail'||s.type==='race');
+      if(s.type==='gym'){
+        var sb=document.createElement('div');sb.className='sub';
+        sb.textContent=(s.note?s.note:hxGym[s.gym].blocks.length+' blocks · tap to open');
+        tb.appendChild(sb);
+      }else if(s.sub){
+        var sb2=document.createElement('div');sb2.className='sub';
+        sb2.textContent=s.sub+' · tap to open';
+        tb.appendChild(sb2);
+      }else if(s.lines){
+        var sb3=document.createElement('div');sb3.className='sub';
+        sb3.textContent=s.lines[0];
+        tb.appendChild(sb3);
+      }
+
+      head.appendChild(em);head.appendChild(tb);
+
+      if(expandable){
+        var chev=document.createElement('button');
+        chev.className='chev'+(hxOpen[s.id]?' open':'');
+        chev.textContent='▾';
+        chev.onclick=function(e){e.stopPropagation();hxOpen[s.id]=!hxOpen[s.id];hxRender();};
+        head.appendChild(chev);
+        head.style.cursor='pointer';
+        head.onclick=function(){hxOpen[s.id]=!hxOpen[s.id];hxRender();};
+      }
+
+      var tk=document.createElement('button');
+      tk.className='tick'+(ticks.done[key]?' on':'');
+      tk.textContent='✓';
+      tk.onclick=function(e){
+        e.stopPropagation();
+        ticks.done[key]=!ticks.done[key];
+        save(WEEK_KEY,ticks);hxRender();
+      };
+      head.appendChild(tk);
+      card.appendChild(head);
+
+      if(s.type==='gym'){
+        var g=hxGym[s.gym];
+        var exbox=document.createElement('div');
+        exbox.className='exercises'+(hxOpen[s.id]?' open':'');
+
+        if(s.note){
+          var wn=document.createElement('div');wn.className='block';
+          var wnl=document.createElement('div');wnl.className='block-note';
+          wnl.style.fontStyle='normal';wnl.style.fontWeight='600';wnl.textContent=s.note;
+          wn.appendChild(wnl);exbox.appendChild(wn);
+        }
+
+        var wu=document.createElement('div');wu.className='block';
+        var wul=document.createElement('div');wul.className='block-label';
+        wul.textContent='Warm-up · pick what you fancy';
+        wu.appendChild(wul);
+        g.warmup.forEach(function(o){
+          var it=document.createElement('div');it.className='wu-item';it.textContent=o;
+          wu.appendChild(it);
+        });
+        exbox.appendChild(wu);
+
+        g.blocks.forEach(function(blk,bi){
+          var bdiv=document.createElement('div');bdiv.className='block';
+          var bl=document.createElement('div');bl.className='block-label';bl.textContent=blk.label;
+          bdiv.appendChild(bl);
+
+          blk.exercises.forEach(function(ex,i){
+            var exKey='hx-'+s.gym+'-'+bi+'-'+i;
+            var row=document.createElement('div');
+            row.className='ex-row'+(ticks.ex[exKey]?' exdone':'');
+
+            var et=document.createElement('button');
+            et.className='extick'+(ticks.ex[exKey]?' on':'');
+            et.textContent='✓';
+            et.onclick=function(){
+              ticks.ex[exKey]=!ticks.ex[exKey];
+              save(WEEK_KEY,ticks);hxRender();
+            };
+            row.appendChild(et);
+
+            var main=document.createElement('div');main.className='ex-main';
+            var nameInp=document.createElement('input');
+            nameInp.type='text';nameInp.className='ex-name';nameInp.value=ex.name;
+            nameInp.oninput=function(){ex.name=nameInp.value;save(HX_PLAN_KEY,hxGym);};
+            main.appendChild(nameInp);
+
+            var subrow=document.createElement('div');subrow.className='ex-sub';
+            [['reps','Reps','ex-reps'],['weight','Weight','ex-weight']].forEach(function(f){
+              var lab=document.createElement('span');lab.className='lab';lab.textContent=f[1];
+              var inp=document.createElement('input');
+              inp.type='text';inp.className=f[2];inp.value=ex[f[0]];
+              inp.oninput=function(){ex[f[0]]=inp.value;save(HX_PLAN_KEY,hxGym);};
+              subrow.appendChild(lab);subrow.appendChild(inp);
+            });
+            main.appendChild(subrow);
+            row.appendChild(main);
+
+            var del=document.createElement('button');
+            del.className='exdel';del.textContent='✕';
+            del.onclick=function(){
+              if(confirm('Remove "'+ex.name+'"?')){
+                blk.exercises.splice(i,1);save(HX_PLAN_KEY,hxGym);hxRender();
+              }
+            };
+            row.appendChild(del);
+            bdiv.appendChild(row);
+          });
+
+          var add=document.createElement('button');
+          add.className='addex';add.textContent='+ Add exercise';
+          add.onclick=function(){
+            blk.exercises.push({name:'New exercise',reps:'',weight:''});
+            save(HX_PLAN_KEY,hxGym);hxRender();
+          };
+          bdiv.appendChild(add);
+          exbox.appendChild(bdiv);
+        });
+        card.appendChild(exbox);
+      }
+
+      if((s.type==='detail'||s.type==='race')&&s.lines){
+        var det=document.createElement('div');
+        det.className='detail'+(hxOpen[s.id]?' open':'');
+        var ul=document.createElement('ul');
+        s.lines.forEach(function(o){
+          var li=document.createElement('li');li.textContent=o;ul.appendChild(li);
+        });
+        det.appendChild(ul);
+        card.appendChild(det);
+      }
+
+      box2.appendChild(card);
+    });
+  }
+
+  document.getElementById('hxResetWeek').onclick=function(){
+    if(confirm('Untick everything for this week? (Weights & reps stay saved)')){
+      ticks={done:{},ex:{}};save(WEEK_KEY,ticks);hxRender();render();
+    }
+  };
+
   /* ---------- tabs ---------- */
   var tabC=document.getElementById('tabCurrent'),tabH=document.getElementById('tabHyrox');
   var viewC=document.getElementById('currentView'),viewH=document.getElementById('hyroxView');
@@ -595,6 +1006,8 @@
 
   renderWeekSel();
   render();
+  hxRenderChips();
+  hxRender();
 })();
 </script>
 </body>
