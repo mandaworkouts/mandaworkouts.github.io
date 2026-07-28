@@ -284,7 +284,7 @@
       <div class="notes-body">
         <h3>The big one</h3>
         <ul>
-          <li>🏃 <b>Never two running days back to back.</b> Long Run, Tempo and Compromised are the three that drain you — spread them 2–3 days apart</li>
+          <li>🏃 <b>Never two running days back to back.</b> Long Run, Threshold and Compromised are the three that drain you — spread them 2–3 days apart</li>
         </ul>
         <h3>Rest days</h3>
         <ul>
@@ -294,12 +294,12 @@
         </ul>
         <h3>Gym</h3>
         <ul>
-          <li>🔥 Tempo sits fine the day after Lower — never the day before HYROX day</li>
+          <li>🔥 Threshold sits fine the day after Lower — never the day before HYROX day</li>
           <li>🦵 Lower can sit next to Compromised: its conditioning is ski/row/bike, so it isn't adding running load</li>
         </ul>
         <h3>A layout that works</h3>
         <ul>
-          <li>Long Run → Lower → Compromised → Rest → HYROX &amp; Upper → Tempo → Rest</li>
+          <li>Long Run → Lower → Compromised → Rest → HYROX &amp; Upper → Threshold → Rest</li>
         </ul>
       </div>
     </details>
@@ -724,18 +724,32 @@
       '↻ '+c.r+' — the 800m opens every round'
     ];
   }
-  var HX_TEMPO={1:20,2:22,3:24,4:26,5:28,7:20,8:26,9:28,10:30};
+  var HX_THRESH={
+    1:{r:2,reps:[800,600,400],tot:'3,600m'},
+    2:{r:2,reps:[1000,600,400],tot:'4,000m'},
+    3:{r:2,reps:[1000,800,400],tot:'4,400m'},
+    4:{r:2,reps:[1000,800,600],tot:'4,800m'},
+    5:{r:2,reps:[1200,800,600],tot:'5,200m'},
+    7:{r:2,reps:[800,600,400],tot:'3,600m'},
+    8:{r:3,reps:[800,600,400],tot:'5,400m'},
+    9:{r:3,reps:[1000,600,400],tot:'6,000m'},
+    10:{r:3,reps:[1000,800,400],tot:'6,600m'}
+  };
 
-  function tempoLines(n){
-    var m=HX_TEMPO[n]||20;
-    var extra=(n===7)?' — easing back after the doubles':'';
-    return [
-      m+' min tempo run @ 5:15–5:20/km'+extra,
-      '— core × 3, 60s rest —',
-      'Side plank 30s × 2',
-      'High plank shoulder taps 30s × 2',
-      'Side plank abductions 30s × 2 e/s'
-    ];
+  function threshLines(n){
+    var t=HX_THRESH[n]||HX_THRESH[1];
+    var lines=['10 min warm-up @ Zone 2','— '+t.r+' rounds —'];
+    lines.push(t.reps[0]+'m @ 5:15–5:20 · just faster than 10K pace');
+    lines.push(t.reps[1]+'m @ 5:05–5:10 · 5K pace');
+    lines.push(t.reps[2]+'m @ 4:50–4:55 · faster than 5K pace');
+    lines.push('⏸ 2 min rest after EVERY rep');
+    lines.push('10 min cool-down @ Zone 2');
+    lines.push('Quality total: '+t.tot+(n===7?' — deload after the doubles':''));
+    lines.push('— core × 3, 60s rest —');
+    lines.push('Side plank 30s × 2');
+    lines.push('High plank shoulder taps 30s × 2');
+    lines.push('Side plank abductions 30s × 2 e/s');
+    return lines;
   }
 
   function hxDates(n){
@@ -752,7 +766,7 @@
 
     if(n===6){
       return {focus:'🏁 Doubles race week — you still run the full 8km',
-        note:'Race week. Nothing heavy after Tuesday — you want the patterns fresh, not the legs tired. Tempo and Compromised both come out; the race covers your intensity.',
+        note:'Race week. Nothing heavy after Tuesday — you want the patterns fresh, not the legs tired. Threshold and Compromised both come out; the race covers your intensity.',
         sessions:[
           {day:'Mon',id:'w6run',emoji:'🌿',name:'Easy Run',type:'detail',lines:['40 min Zone 2 — shortened long run']},
           {day:'Tue',id:'w6low',emoji:'🦵',name:'Lower Strength — reduced',type:'gym',gym:lowerKey,
@@ -806,7 +820,8 @@
        note:(n===7?'⚠️ 3×5 this week, back off ~10%':'')},
       {id:'hxcomp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(n),sub:comp.r},
       {id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox',note:''},
-      {id:'hxtempo',emoji:'🔥',name:'Tempo Run & Core',type:'detail',lines:tempoLines(n),sub:(HX_TEMPO[n]||20)+' min tempo'},
+      {id:'hxtempo',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(n),
+       sub:(HX_THRESH[n]||HX_THRESH[1]).r+' rounds · '+(HX_THRESH[n]||HX_THRESH[1]).tot+' quality'},
       {id:'hxr1',emoji:'😴',name:'Rest Day',type:'rest'},
       {id:'hxr2',emoji:'🛁',name:'Rest Day',type:'rest'}
     ];
