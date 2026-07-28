@@ -805,6 +805,28 @@
         ]};
     }
 
+    if(n===2){
+      return {focus:'🏁 Week 2 of 11 · 5K parkrun test — Sat 29 Aug',
+        note:'Days are fixed this week. Threshold comes out — the parkrun IS your quality run. Nothing hard after Wednesday.',
+        sessions:[
+          {day:'Mon',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB'},
+          {day:'Tue',id:'w2comp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(2),sub:'2 rounds'},
+          {day:'Wed',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox'},
+          {day:'Thu',id:'w2long',emoji:'🌿',name:'Long Run',type:'detail',
+           lines:['60 min Zone 2 — keep it genuinely easy','Legs are banking rest from here on']},
+          {day:'Fri',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Sat',id:'w2test',emoji:'🏁',name:'parkrun — 5K TEST',type:'race',lines:[
+            'Target 25:15 (5:03/km) · PB 25:34',
+            'Km 1: no faster than 5:05 — set a pace alert ⏱',
+            'Km 2–3: settle at 5:03–5:05, HR into the high 160s is fine',
+            'Km 4: hold. This is the hard one mentally',
+            'Km 5: empty it',
+            'Even splits beat a fast start every single time'
+          ]},
+          {day:'Sun',id:'w2r2',emoji:'🛁',name:'Rest Day',type:'rest'}
+        ]};
+    }
+
     var focus,note;
     if(n===7){
       focus='🔄 Easing back after the doubles';
@@ -813,7 +835,6 @@
       focus='Week '+n+' of 11 · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
       note='';
       if(n===1)note='🛬 Back from Greece Sun 16th — ease in. This is the lightest week of the block, so there’s nothing to force.';
-      if(n===2)note='🏁 5K parkrun test — Sat 29 Aug. Swap OUT the Threshold session this week; the parkrun is your quality run. Nothing hard after Wednesday.';
     }
 
     var sess=[
