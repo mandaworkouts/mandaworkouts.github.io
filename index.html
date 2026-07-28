@@ -725,15 +725,15 @@
     ];
   }
   var HX_THRESH={
-    1:{r:2,reps:[800,600,400],tot:'3,600m'},
-    2:{r:2,reps:[1000,600,400],tot:'4,000m'},
-    3:{r:2,reps:[1000,800,400],tot:'4,400m'},
-    4:{r:2,reps:[1000,800,600],tot:'4,800m'},
-    5:{r:2,reps:[1200,800,600],tot:'5,200m'},
-    7:{r:2,reps:[800,600,400],tot:'3,600m'},
-    8:{r:3,reps:[800,600,400],tot:'5,400m'},
-    9:{r:3,reps:[1000,600,400],tot:'6,000m'},
-    10:{r:3,reps:[1000,800,400],tot:'6,600m'}
+    1:{r:2,reps:[800,600,400],tot:'3,600m',note:' — calibration week, find your paces'},
+    2:{r:2,reps:[800,600,400],tot:'3,600m',note:' — repeat of week 1, no increase'},
+    3:{r:2,reps:[1000,600,400],tot:'4,000m'},
+    4:{r:2,reps:[1000,800,400],tot:'4,400m'},
+    5:{r:2,reps:[1000,800,600],tot:'4,800m'},
+    7:{r:2,reps:[800,600,400],tot:'3,600m',note:' — deload after the doubles'},
+    8:{r:2,reps:[1200,800,600],tot:'5,200m'},
+    9:{r:3,reps:[800,600,400],tot:'5,400m'},
+    10:{r:3,reps:[1000,600,400],tot:'6,000m'}
   };
 
   function threshLines(n){
@@ -744,7 +744,7 @@
     lines.push(t.reps[2]+'m @ 4:50–4:55 · faster than 5K pace');
     lines.push('⏸ 2 min rest after EVERY rep');
     lines.push('10 min cool-down @ Zone 2');
-    lines.push('Quality total: '+t.tot+(n===7?' — deload after the doubles':''));
+    lines.push('Quality total: '+t.tot+(t.note||''));
     lines.push('— core × 3, 60s rest —');
     lines.push('Side plank 30s × 2');
     lines.push('High plank shoulder taps 30s × 2');
