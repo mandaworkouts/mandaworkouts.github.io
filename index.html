@@ -702,10 +702,10 @@
   var hxOpen={};
 
   var HX_COMP={
-    1:{r:'2 rounds',b:'25m'},2:{r:'2 rounds',b:'25m'},
-    3:{r:'3 rounds',b:'20m'},4:{r:'3 rounds',b:'20m'},5:{r:'3 rounds',b:'20m'},
+    3:{r:'2 rounds',b:'25m'},4:{r:'2 rounds',b:'25m'},
+    5:{r:'3 rounds',b:'20m'},
     7:{r:'2 rounds',b:'25m'},
-    8:{r:'3–4 rounds',b:'20m'},9:{r:'3–4 rounds',b:'20m'},10:{r:'3–4 rounds',b:'20m'}
+    8:{r:'3 rounds',b:'20m'},9:{r:'3 rounds',b:'20m'},10:{r:'3–4 rounds',b:'20m'}
   };
 
   function compLines(n){
@@ -725,15 +725,13 @@
     ];
   }
   var HX_THRESH={
-    1:{r:2,reps:[800,600,400],tot:'3,600m',note:' — calibration week, find your paces'},
-    2:{r:2,reps:[800,600,400],tot:'3,600m',note:' — repeat of week 1, no increase'},
-    3:{r:2,reps:[1000,600,400],tot:'4,000m'},
-    4:{r:2,reps:[1000,800,400],tot:'4,400m'},
-    5:{r:2,reps:[1000,800,600],tot:'4,800m'},
+    3:{r:2,reps:[800,600,400],tot:'3,600m',note:' — first one, find your paces'},
+    4:{r:2,reps:[800,600,400],tot:'3,600m',note:' — repeat, no increase'},
+    5:{r:2,reps:[1000,600,400],tot:'4,000m'},
     7:{r:2,reps:[800,600,400],tot:'3,600m',note:' — deload after the doubles'},
-    8:{r:2,reps:[1200,800,600],tot:'5,200m'},
-    9:{r:3,reps:[800,600,400],tot:'5,400m'},
-    10:{r:3,reps:[1000,600,400],tot:'6,000m'}
+    8:{r:2,reps:[1000,800,400],tot:'4,400m'},
+    9:{r:2,reps:[1000,800,600],tot:'4,800m'},
+    10:{r:2,reps:[1200,800,600],tot:'5,200m'}
   };
 
   function threshLines(n){
@@ -805,15 +803,35 @@
         ]};
     }
 
+    if(n===1){
+      return {focus:'🛬 Week 1 of 11 · back from Greece — 5K plan running',
+        note:'Running this week comes from your 5K plan (week 7, sharpen). HYROX running starts week 3. Do the easy run first — shake the rust off before anything hard.',
+        sessions:[
+          {id:'w1easy',emoji:'🌿',name:'Easy Run Back',type:'detail',sub:'25–30 min + strides',
+           lines:['25–30 min easy + 4 strides','Your first run back — do this one first']},
+          {id:'w1low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA'},
+          {id:'w1int',emoji:'⚡',name:'Intervals — 5K plan',type:'detail',sub:'4 × 1km @ goal pace',
+           lines:['4 × 1km @ 5:00–5:05 (goal pace)','2 min recovery','First rep will feel odd — it comes back by rep 2']},
+          {id:'w1hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox'},
+          {id:'w1long',emoji:'🏃',name:'Long Run',type:'detail',sub:'45–50 min Z2',
+           lines:['45–50 min Zone 2']},
+          {id:'w1r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {id:'w1r2',emoji:'🛁',name:'Rest Day',type:'rest'}
+        ]};
+    }
+
     if(n===2){
       return {focus:'🏁 Week 2 of 11 · 5K parkrun test — Sat 29 Aug',
-        note:'Days are fixed this week. Threshold comes out — the parkrun IS your quality run. Nothing hard after Wednesday.',
+        note:'Days fixed. Running from your 5K plan (week 8, test week) — no Compromised, no Threshold. Nothing hard after Wednesday.',
         sessions:[
-          {day:'Mon',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB'},
-          {day:'Tue',id:'w2comp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(2),sub:'2 rounds'},
-          {day:'Wed',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox'},
-          {day:'Thu',id:'w2long',emoji:'🌿',name:'Long Run',type:'detail',
-           lines:['60 min Zone 2 — keep it genuinely easy','Legs are banking rest from here on']},
+          {day:'Mon',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB',
+           note:'⚠️ Moderate load — nothing maximal in test week'},
+          {day:'Tue',id:'w2sharp',emoji:'⚡',name:'Sharpener — 5 × 400m',type:'detail',sub:'5 × 400m, full recovery',
+           lines:['5 × 400m @ goal pace (5:00–5:05)','Full recovery between reps','A sharpener, not a workout — leave feeling fresh']},
+          {day:'Wed',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox',
+           note:'⚠️ Sleds moderate — last hard session before the test'},
+          {day:'Thu',id:'w2easy',emoji:'🌿',name:'Easy + Strides',type:'detail',sub:'20 min easy + 4 strides',
+           lines:['20 min easy','4 strides','Legs are banking rest from here on']},
           {day:'Fri',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
           {day:'Sat',id:'w2test',emoji:'🏁',name:'parkrun — 5K TEST',type:'race',lines:[
             'Target 25:15 (5:03/km) · PB 25:34',
@@ -834,7 +852,6 @@
     }else{
       focus='Week '+n+' of 11 · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
       note='';
-      if(n===1)note='🛬 Back from Greece Sun 16th — ease in. This is the lightest week of the block, so there’s nothing to force.';
     }
 
     var sess=[
