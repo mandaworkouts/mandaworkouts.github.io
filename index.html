@@ -624,7 +624,7 @@
   };
 
   /* ================= HYROX BLOCK ================= */
-  var HX_PLAN_KEY='manda-hyrox-plan-v2';
+  var HX_PLAN_KEY='manda-hyrox-plan-v3';
   var HX_WEEKSEL_KEY='manda-hyrox-week';
   var HX_START=new Date(2026,7,17);   /* Mon 17 Aug 2026 */
   var HX_TOTAL=11;
@@ -640,10 +640,17 @@
     'Inchworm to world’s greatest stretch',
     'Side plank abduction',
     'Light DB goblet squat 3×15 — speed + full ROM, 30s rest',
-    'Toes farmers carry',
-    'Plank bag drag or KB horn holds',
-    'Heavy calf combo'
+    'Toes farmers carry'
   ];
+  var HX_SLED=[
+    {name:'Sled Push 10m',reps:'4 ×',weight:'> race wt, rest each end'},
+    {name:'Sled Pull 10m',reps:'4 ×',weight:'> race wt, rest each end'},
+    {name:'Walking Lunges',reps:'2 × 2 min',weight:'heavy KB e/s'},
+    {name:'Burpee Box Jumps',reps:'4 × 1 min',weight:'—'}
+  ];
+  var HX_CARDIO={label:'15 min Cardio Mix',note:'',exercises:[
+    {name:'Rower / Ski Erg / Bike or Air Bike',reps:'15 min',weight:'—'}
+  ]};
 
   var HX_SUPERSET={label:'Superset',note:'',exercises:[
     {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'},
@@ -658,41 +665,42 @@
 
   var HX_GYM_DEFAULT={
     lowerA:{warmup:LOWER_WARM,blocks:[
-      {label:'Strength · Week A',note:'',exercises:[
-        {name:'Barbell Squat (deep)',reps:'4×5',weight:'35kg'},
-        {name:'Lateral Step-Up',reps:'2×6–8 e/s',weight:'heavy'},
-        {name:'SL RDL',reps:'2×6–8 e/s',weight:'9kg'}
+      {label:'Main block · Week A',note:'',exercises:[
+        {name:'Barbell Squat (deep)',reps:'3×5',weight:'35kg'},
+        {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'}
       ]},
-      JSON.parse(JSON.stringify(HX_SUPERSET)),
+      {label:'Superset',note:'',exercises:[
+        {name:'Single Leg Hip Thrust',reps:'3×5 e/s',weight:'7kg'},
+        {name:'Lunge Hold and Row (L17)',reps:'3×5',weight:''}
+      ]},
       JSON.parse(JSON.stringify(HX_AMRAP))
     ]},
     lowerB:{warmup:LOWER_WARM,blocks:[
-      {label:'Strength · Week B',note:'',exercises:[
-        {name:'Sumo Deadlift',reps:'4×5',weight:'~45kg'},
-        {name:'Split Squats with Rotation',reps:'2×6–8 e/s',weight:'2×9kg'},
-        {name:'SL Hip Thrust',reps:'2×6–8 e/s',weight:'—'}
+      {label:'Main block · Week B',note:'',exercises:[
+        {name:'Sumo Deadlift',reps:'3×5',weight:'~45kg'},
+        {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'}
       ]},
-      JSON.parse(JSON.stringify(HX_SUPERSET)),
+      {label:'Superset',note:'',exercises:[
+        {name:'Split Squats with Rotation',reps:'3×5 e/s',weight:'2×9kg'},
+        {name:'DB Thruster 3×8 or Rotation Thrusters 3×5',reps:'—',weight:'2×10kg'}
+      ]},
       JSON.parse(JSON.stringify(HX_AMRAP))
     ]},
-    hyrox:{warmup:HYROX_WARM,blocks:[
-      {label:'HYROX Strength',note:'',exercises:[
-        {name:'Sled Push 20m',reps:'4 ×',weight:'> race wt, 60s rest'},
-        {name:'Sled Pull 20m',reps:'3 ×',weight:'> race wt, 60s rest'},
-        {name:'Walking Lunges',reps:'2 × 2 min',weight:'heavy KB e/s'},
-        {name:'Burpee Box Jumps',reps:'4 × 1 min',weight:'—'}
-      ]},
-      {label:'Upper · Superset 1',note:'',exercises:[
+    hyroxA:{warmup:HYROX_WARM,blocks:[
+      {label:'HYROX Strength',note:'',exercises:JSON.parse(JSON.stringify(HX_SLED))},
+      {label:'Upper Superset · Week A',note:'',exercises:[
         {name:'Single Arm Lat Pulldown (L29)',reps:'3×5 e/s',weight:''},
         {name:'Single Arm Overhead Press',reps:'3×5 e/s',weight:''}
       ]},
-      {label:'Upper · Superset 2',note:'',exercises:[
-        {name:'Lunge Hold and Row (L17)',reps:'3×5',weight:''},
-        {name:'Eccentric Pull-Ups (max) or KB Rotation Gorilla Row',reps:'3×5',weight:''}
+      JSON.parse(JSON.stringify(HX_CARDIO))
+    ]},
+    hyroxB:{warmup:HYROX_WARM,blocks:[
+      {label:'HYROX Strength',note:'',exercises:JSON.parse(JSON.stringify(HX_SLED))},
+      {label:'Upper Superset · Week B',note:'',exercises:[
+        {name:'Eccentric Pull-Ups',reps:'3 × max',weight:''},
+        {name:'Single Arm Overhead Press',reps:'3×5 e/s',weight:''}
       ]},
-      {label:'15 min Cardio Mix',note:'',exercises:[
-        {name:'Rower / Ski Erg / Bike or Air Bike',reps:'15 min',weight:'—'}
-      ]}
+      JSON.parse(JSON.stringify(HX_CARDIO))
     ]}
   };
 
@@ -761,6 +769,7 @@
     var comp=HX_COMP[n]||{r:'2 rounds'};
     var letter=(n%2===1)?'A':'B';
     var lowerKey=(letter==='A')?'lowerA':'lowerB';
+    var hyroxKey=(letter==='A')?'hyroxA':'hyroxB';
 
     if(n===6){
       return {focus:'🏁 Doubles race week — you still run the full 8km',
@@ -770,7 +779,7 @@
           {day:'Tue',id:'w6low',emoji:'🦵',name:'Lower Strength — reduced',type:'gym',gym:lowerKey,
            note:'⚠️ 2 sets not 4 · moderate load · skip the AMRAP'},
           {day:'Wed',id:'w6r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu',id:'w6hx',emoji:'🎯',name:'HYROX & Upper — technique only',type:'gym',gym:'hyrox',
+          {day:'Thu',id:'w6hx',emoji:'🎯',name:'HYROX & Upper — technique only',type:'gym',gym:hyroxKey,
            note:'⚠️ Sleds at or below race weight, 2×20m only · upper at half volume · skip the cardio mix'},
           {day:'Fri',id:'w6r2',emoji:'😴',name:'Rest Day',type:'rest'},
           {day:'Sat',id:'w6race',emoji:'🏁',name:'HYROX DOUBLES',type:'race',
@@ -812,7 +821,7 @@
           {id:'w1low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA'},
           {id:'w1int',emoji:'⚡',name:'Intervals — 5K plan',type:'detail',sub:'4 × 1km @ goal pace',
            lines:['4 × 1km @ 5:00–5:05 (goal pace)','2 min recovery','First rep will feel odd — it comes back by rep 2']},
-          {id:'w1hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox'},
+          {id:'w1hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey},
           {id:'w1long',emoji:'🏃',name:'Long Run',type:'detail',sub:'45–50 min Z2',
            lines:['45–50 min Zone 2']},
           {id:'w1r1',emoji:'😴',name:'Rest Day',type:'rest'},
@@ -828,7 +837,7 @@
            note:'⚠️ Moderate load — nothing maximal in test week'},
           {day:'Tue',id:'w2sharp',emoji:'⚡',name:'Sharpener — 5 × 400m',type:'detail',sub:'5 × 400m, full recovery',
            lines:['5 × 400m @ goal pace (5:00–5:05)','Full recovery between reps','A sharpener, not a workout — leave feeling fresh']},
-          {day:'Wed',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox',
+          {day:'Wed',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,
            note:'⚠️ Sleds moderate — last hard session before the test'},
           {day:'Thu',id:'w2easy',emoji:'🌿',name:'Easy + Strides',type:'detail',sub:'20 min easy + 4 strides',
            lines:['20 min easy','4 strides','Legs are banking rest from here on']},
@@ -859,7 +868,7 @@
       {id:'hxlow',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey,
        note:(n===7?'⚠️ 3×5 this week, back off ~10%':'')},
       {id:'hxcomp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(n),sub:comp.r},
-      {id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:'hyrox',note:''},
+      {id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:''},
       {id:'hxtempo',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(n),
        sub:(HX_THRESH[n]||HX_THRESH[1]).r+' rounds · '+(HX_THRESH[n]||HX_THRESH[1]).tot+' quality'},
       {id:'hxr1',emoji:'😴',name:'Rest Day',type:'rest'},
