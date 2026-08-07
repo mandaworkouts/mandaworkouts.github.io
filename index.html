@@ -212,10 +212,10 @@
 
 <header>
   <div class="wrap">
-    <h1>Manda's Training Week 🏃‍♀️</h1>
+    <h1>Manda's HYROX Block 🏁</h1>
     <div class="week" id="weekLabel"></div>
     <div class="progress-row">
-      <div class="progress-label"><span>Workouts done</span><span id="progText">0 / 6</span></div>
+      <div class="progress-label"><span>Sessions done</span><span id="progText">0 / 6</span></div>
       <div class="bar"><div class="bar-fill" id="progBar"></div></div>
     </div>
     <div class="smashed" id="smashed">Week smashed! 🎉 Go you!</div>
@@ -223,12 +223,12 @@
 </header>
 
 <div class="wrap">
-  <div class="tabs">
+  <div class="tabs" style="display:none">
     <button class="tab active" id="tabCurrent">5K PB Block</button>
     <button class="tab" id="tabHyrox">🏁 HYROX Block</button>
   </div>
 
-  <div id="currentView">
+  <div id="currentView" style="display:none">
     <div class="weeksel">
       <div class="wk-title">🎯 5K PB plan · which week are you on?</div>
       <div class="chips" id="weekChips"></div>
@@ -270,7 +270,7 @@
     </div>
   </div>
 
-  <div id="hyroxView" style="display:none;">
+  <div id="hyroxView">
     <div class="weeksel">
       <div class="wk-title">🏁 HYROX block · race Sun 1 Nov</div>
       <div class="chips wrap" id="hxChips"></div>
@@ -442,11 +442,12 @@
     'Week commencing Mon '+monday.toLocaleDateString('en-GB',{day:'numeric',month:'long'});
 
   function updateProgress(){
-    var workouts=plan.sessions.filter(function(s){return s.type!=='rest';});
-    var done=workouts.filter(function(s){return ticks.done[s.id];}).length;
+    var wk=hxBuild(hxWeek);
+    var workouts=wk.sessions.filter(function(s){return s.type!=='rest';});
+    var done=workouts.filter(function(s){return ticks.done['hx-'+s.id];}).length;
     document.getElementById('progText').textContent=done+' / '+workouts.length;
-    document.getElementById('progBar').style.width=(done/workouts.length*100)+'%';
-    document.getElementById('smashed').className='smashed'+(done===workouts.length?' show':'');
+    document.getElementById('progBar').style.width=(workouts.length?done/workouts.length*100:0)+'%';
+    document.getElementById('smashed').className='smashed'+(workouts.length&&done===workouts.length?' show':'');
   }
 
   /* ---------- week selector ---------- */
@@ -1054,6 +1055,7 @@
 
       box2.appendChild(card);
     });
+    updateProgress();
   }
 
   document.getElementById('hxResetWeek').onclick=function(){
@@ -1074,6 +1076,6 @@
   hxRender();
 })();
 </script>
-<!-- build v4 -->
+<!-- hyrox only v5 -->
 </body>
 </html>
