@@ -814,44 +814,39 @@
     }
 
     if(n===1){
-      return {focus:'🛬 Week 1 of 11 · back from Greece — 5K plan running',
-        note:'Running this week comes from your 5K plan (week 7, sharpen). HYROX running starts week 3. Do the easy run first — shake the rust off before anything hard.',
+      return {focus:'🛬 Week 1 · back from Greece',
+        note:'Two easy runs to shake the rust off, then the confirmation session on Saturday. Keep Sunday 23rd clear — it is the day after your biggest running session.',
         sessions:[
           {id:'w1easy',emoji:'🌿',name:'Easy Run Back',type:'detail',sub:'25–30 min + strides',
            lines:['25–30 min easy + 4 strides','Your first run back — do this one first']},
           {id:'w1low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA'},
-          {id:'w1int',emoji:'⚡',name:'Intervals — 5K plan',type:'detail',sub:'4 × 1km @ goal pace',
-           lines:['4 × 1km @ 5:00–5:05 (goal pace)','2 min recovery','First rep will feel odd — it comes back by rep 2']},
+          {id:'w1easy2',emoji:'🏃',name:'Easy Run',type:'detail',sub:'25–30 min + strides',
+           lines:['25–30 min easy + 4 strides']},
           {id:'w1hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey},
-          {id:'w1long',emoji:'🏃',name:'Long Run',type:'detail',sub:'45–50 min Z2',
-           lines:['45–50 min Zone 2']},
+          {day:'Sat 22',id:'w1int',emoji:'⚡',name:'Confirmation Session',type:'detail',sub:'6 × 800m @ 4:48–4:52',
+           lines:['6 × 800m @ 4:48–4:52','90s walk recovery','Full rep count, race-relevant pace, self-driven','This proves the fitness is banked — if it feels good, green light']},
           {id:'w1r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {id:'w1r2',emoji:'🛁',name:'Rest Day',type:'rest'}
+          {id:'w1r2',emoji:'🛁',name:'Rest Day — keep Sunday 23rd',type:'rest'}
         ]};
     }
 
     if(n===2){
-      return {focus:'🏁 Week 2 of 11 · 5K parkrun test — Sat 29 Aug',
-        note:'Days fixed. Running from your 5K plan (week 8, test week) — no Compromised, no Threshold. Nothing hard after Wednesday.',
+      return {focus:'🏁 Week 2 · 5K parkrun test — Sat 29 Aug',
+        note:'Days fixed. Tuesday is your last hard session — halved volume, intensity untouched. Everything after that is just staying sharp.',
         sessions:[
-          {day:'Mon',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB',
-           note:'⚠️ Moderate load — nothing maximal in test week'},
-          {day:'Tue',id:'w2sharp',emoji:'⚡',name:'Sharpener — 5 × 400m',type:'detail',sub:'5 × 400m, full recovery',
-           lines:['5 × 400m @ goal pace (5:00–5:05)','Full recovery between reps','A sharpener, not a workout — leave feeling fresh']},
-          {day:'Wed',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,
-           note:'⚠️ Sleds moderate — last hard session before the test'},
-          {day:'Thu',id:'w2easy',emoji:'🌿',name:'Easy + Strides',type:'detail',sub:'20 min easy + 4 strides',
-           lines:['20 min easy','4 strides','Legs are banking rest from here on']},
-          {day:'Fri',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Sat',id:'w2test',emoji:'🏁',name:'parkrun — 5K TEST',type:'race',lines:[
-            'Target 25:15 (5:03/km) · PB 25:34',
-            'Km 1: no faster than 5:05 — set a pace alert ⏱',
+          {day:'Mon 24',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB',note:'⚠️ Moderate load — nothing maximal in test week'},
+          {day:'Tue 25',id:'w2sharp',emoji:'⚡',name:'Sharpener — 5 × 400m',type:'detail',sub:'5 × 400m @ 4:50, full recovery',
+           lines:['5 × 400m @ 4:50','Full recovery between reps','Halved volume, intensity untouched — snappy and sharp','Your last hard session']},
+          {day:'Wed 26',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:'⚠️ Sleds moderate — nothing maximal'},
+          {day:'Thu 27',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Fri 28',id:'w2shake',emoji:'🌿',name:'Shakeout Run',type:'detail',sub:'12–15 min + strides',
+           lines:['12–15 min easy','4 × 20s strides','Keep it light — legs are banking rest']},
+          {day:'Sat 29',id:'w2test',emoji:'🏁',name:'parkrun — 5K TEST',type:'race',lines:[
+            'Target 25:15 (5:03/km) · PB 25:34','Km 1: no faster than 5:05 — set a pace alert ⏱',
             'Km 2–3: settle at 5:03–5:05, HR into the high 160s is fine',
-            'Km 4: hold. This is the hard one mentally',
-            'Km 5: empty it',
-            'Even splits beat a fast start every single time'
-          ]},
-          {day:'Sun',id:'w2r2',emoji:'🛁',name:'Rest Day',type:'rest'}
+            'Km 4: hold. This is the hard one mentally','Km 5: empty it',
+            'Even splits beat a fast start every single time']},
+          {day:'Sun 30',id:'w2r2',emoji:'🛁',name:'Rest Day',type:'rest'}
         ]};
     }
 
@@ -1076,6 +1071,6 @@
   hxRender();
 })();
 </script>
-<!-- hyrox only v5 -->
+<!-- v6 wk1-2 running -->
 </body>
 </html>
