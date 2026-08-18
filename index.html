@@ -734,27 +734,46 @@
   }
   var HX_THRESH={
     4:{r:2,reps:[800,600,400],tot:'3,600m',note:' — first one, find your paces'},
-    5:{r:2,reps:[800,600,400],tot:'3,600m',note:' — repeat, no increase'},
-    7:{r:2,reps:[800,600,400],tot:'3,600m',note:' — easing back after the doubles'},
-    8:{r:2,reps:[1000,600,400],tot:'4,000m'},
-    9:{r:2,reps:[1000,800,400],tot:'4,400m'},
-    10:{r:2,reps:[1000,800,600],tot:'4,800m'}
+    5:{r:2,reps:[800,600,400],tot:'3,600m',note:' — repeat, no increase'}
+  };
+  var HX_THRESH_HR={
+    7:{set:'4 × 5 min',rest:'60s',work:'20 min',at:'~14 min'},
+    8:{set:'3 × 8 min',rest:'95s',work:'24 min',at:'~19 min'},
+    9:{set:'2 × 13 min',rest:'2:35',work:'26 min',at:'~23 min'},
+    10:{set:'2 × 15 min',rest:'3 min',work:'30 min',at:'~25 min'}
   };
 
+  var CORE=['— core × 3, 60s rest —','Side plank 30s × 2','High plank shoulder taps 30s × 2','Side plank abductions 30s × 2 e/s'];
+
   function threshLines(n){
-    var t=HX_THRESH[n]||HX_THRESH[1];
-    var lines=['10 min warm-up @ Zone 2','— '+t.r+' rounds —'];
-    lines.push(t.reps[0]+'m @ 5:15–5:20 · just faster than 10K pace');
-    lines.push(t.reps[1]+'m @ 5:05–5:10 · 5K pace');
-    lines.push(t.reps[2]+'m @ 4:50–4:55 · faster than 5K pace');
-    lines.push('⏸ 2 min rest after EVERY rep');
-    lines.push('10 min cool-down @ Zone 2');
-    lines.push('Quality total: '+t.tot+(t.note||''));
-    lines.push('— core × 3, 60s rest —');
-    lines.push('Side plank 30s × 2');
-    lines.push('High plank shoulder taps 30s × 2');
-    lines.push('Side plank abductions 30s × 2 e/s');
-    return lines;
+    var h=HX_THRESH_HR[n];
+    if(h){
+      return ['10–15 min easy warm-up','— MAIN SET —',
+        h.set+' @ threshold',
+        'Rest '+h.rest+' between reps (5:1 work:rest)',
+        '🫀 TARGET 158–168 bpm',
+        '160–165 early · up to 168 on the last one',
+        'Above 172 = too hard, ease off',
+        '10–15 min easy cool-down',
+        'Work '+h.work+' · actually at threshold '+h.at,
+        'If you cannot start the next rep on time, you ran it too fast'
+      ].concat(CORE);
+    }
+    var t=HX_THRESH[n]||HX_THRESH[4];
+    return ['10 min warm-up @ Zone 2','— '+t.r+' rounds —',
+      t.reps[0]+'m @ 5:15–5:20 · just faster than 10K pace',
+      t.reps[1]+'m @ 5:05–5:10 · 5K pace',
+      t.reps[2]+'m @ 4:50–4:55 · faster than 5K pace',
+      '⏸ 2 min rest after EVERY rep','10 min cool-down @ Zone 2',
+      'Quality total: '+t.tot+(t.note||'')
+    ].concat(CORE);
+  }
+
+  function threshSub(n){
+    var h=HX_THRESH_HR[n];
+    if(h) return h.set+' · '+h.work+' @ 158–168 bpm';
+    var t=HX_THRESH[n]||HX_THRESH[4];
+    return t.r+' rounds · '+t.tot;
   }
 
   function hxDates(n){
@@ -885,7 +904,7 @@
       {id:'hxcomp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(n),sub:comp.r},
       {id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:''},
       {id:'hxtempo',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(n),
-       sub:(HX_THRESH[n]||HX_THRESH[1]).r+' rounds · '+(HX_THRESH[n]||HX_THRESH[1]).tot+' quality'},
+       sub:threshSub(n)+' quality'},
       {id:'hxr1',emoji:'😴',name:'Rest Day',type:'rest'},
       {id:'hxr2',emoji:'🛁',name:'Rest Day',type:'rest'}
     ];
@@ -1090,6 +1109,6 @@
   hxRender();
 })();
 </script>
-<!-- v7 5k attempt -->
+<!-- v8 threshold wk7-10 -->
 </body>
 </html>
