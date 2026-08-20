@@ -711,7 +711,8 @@
   var hxOpen={};
 
   var HX_COMP={
-    4:{r:'2 rounds',b:'25m'},5:{r:'2 rounds',b:'25m'},
+    2:{r:'1 round',b:'25m'},3:{r:'2 rounds',b:'25m'},
+    5:{r:'2 rounds',b:'25m'},6:{r:'1 round',b:'25m'},
     7:{r:'2 rounds',b:'25m'},
     8:{r:'3 rounds',b:'20m'},9:{r:'3 rounds',b:'20m'},10:{r:'3–4 rounds',b:'20m'}
   };
@@ -733,13 +734,14 @@
     ];
   }
   var HX_THRESH_HR={
-    4:{set:'4 × 5 min',rest:'60s',work:'20 min',at:'~14 min',note:' — first one, find the feel'},
-    5:{set:'4 × 6 min',rest:'70s',work:'24 min',at:'~18 min'},
-    7:{set:'4 × 6 min',rest:'70s',work:'24 min',at:'~18 min',note:' — repeat, easing back after the doubles'},
-    8:{set:'4 × 7 min',rest:'85s',work:'28 min',at:'~22 min'},
-    9:{set:'4 × 8 min',rest:'95s',work:'32 min',at:'~26 min'},
-    10:{set:'4 × 9 min',rest:'110s',work:'36 min',at:'~30 min'}
+    7:{set:'4 × 5 min',rest:'60s',work:'20 min',at:'~14 min',note:' — first one, find the feel'},
+    8:{set:'4 × 6 min',rest:'70s',work:'24 min',at:'~18 min'},
+    9:{set:'4 × 7 min',rest:'85s',work:'28 min',at:'~22 min'},
+    10:{set:'4 × 8 min',rest:'95s',work:'32 min',at:'~26 min'}
   };
+  var INTERVALS=['3km @ 5:45/km','⏸ 3 min recovery',
+    '5 min @ 4:35–4:45','4 min @ 4:35–4:45','3 min @ 4:35–4:45','2 min @ 4:35–4:45','1 min @ 4:35–4:45',
+    '60s rest after every rep','Same session every week — trust it'];
 
   var CORE=['— core × 3, 60s rest —','Side plank 30s × 2','High plank shoulder taps 30s × 2','Side plank abductions 30s × 2 e/s'];
 
@@ -778,19 +780,17 @@
     var hyroxKey=(letter==='A')?'hyroxA':'hyroxB';
 
     if(n===6){
-      return {focus:'🏁 Doubles race week — you still run the full 8km',
-        note:'Race week. Nothing heavy after Tuesday — you want the patterns fresh, not the legs tired. Threshold and Compromised both come out; the race covers your intensity.',
+      return {focus:'🏁 Week 6 · doubles race week — Sat 26 Sep',
+        note:'One light compromised Monday to stay sharp, then nothing heavy. 8 × 600m with stations split — a training day, not a target.',
         sessions:[
-          {day:'Mon',id:'w6run',emoji:'🌿',name:'Easy Run',type:'detail',lines:['40 min Zone 2 — shortened long run']},
-          {day:'Tue',id:'w6low',emoji:'🦵',name:'Lower Strength — reduced',type:'gym',gym:lowerKey,
-           note:'⚠️ 2 sets not 4 · moderate load · skip the AMRAP'},
-          {day:'Wed',id:'w6r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu',id:'w6hx',emoji:'🎯',name:'HYROX & Upper — technique only',type:'gym',gym:hyroxKey,
-           note:'⚠️ Sleds at or below race weight, 2×20m only · upper at half volume · skip the cardio mix'},
-          {day:'Fri',id:'w6r2',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Sat',id:'w6race',emoji:'🏁',name:'HYROX DOUBLES',type:'race',
+          {day:'Mon 21',id:'w6comp',emoji:'🥵',name:'Compromised — 1 round',type:'detail',sub:'1 round · light sharpener',lines:compLines(6)},
+          {day:'Tue 22',id:'w6low',emoji:'🦵',name:'Lower Strength — reduced',type:'gym',gym:lowerKey,note:'⚠️ 2 sets not 3 · moderate load · skip the AMRAP'},
+          {day:'Wed 23',id:'w6r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Thu 24',id:'w6hx',emoji:'🎯',name:'HYROX & Upper — technique only',type:'gym',gym:hyroxKey,note:'⚠️ Sleds at or below race weight · half upper volume · skip the cardio mix'},
+          {day:'Fri 25',id:'w6r2',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Sat 26',id:'w6race',emoji:'🏁',name:'HYROX DOUBLES',type:'race',
            lines:['8 × 600m runs — 4.8km total','Stations split with your partner','A training day, not a target 💪']},
-          {day:'Sun',id:'w6r3',emoji:'🛁',name:'Rest Day',type:'rest'}
+          {day:'Sun 27',id:'w6r3',emoji:'🛁',name:'Rest Day',type:'rest'}
         ]};
     }
 
@@ -819,51 +819,61 @@
     }
 
     if(n===1){
-      return {focus:'🛬 Week 1 · back from Greece',
-        note:'Easy running early, first fast session Thursday. 5K attempt is Sat 5 Sep — target 24:09.',
+      return {focus:'🤒 Week 1 · illness week',
+        note:'Cold from Tuesday night. Rest through Friday. Saturday only if the wiped-out feeling has gone — judge it on energy, not your nose.',
         sessions:[
-          {day:'Mon 17',id:'w1easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'25–30 min + strides',
-           lines:['25–30 min easy + 4 strides']},
+          {day:'Mon 17',id:'w1easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'done ✅',lines:['25–30 min easy + 4 strides']},
           {day:'Tue 18',id:'w1low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA'},
           {day:'Wed 19',id:'w1r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu 20',id:'w1int',emoji:'⚡',name:'Intervals 1 — the ladder',type:'detail',sub:'5-4-3-2-1 @ 4:35–4:45',
-           lines:['3km @ 5:45/km','⏸ 3 min recovery','5 min @ 4:45','4 min @ 4:43','3 min @ 4:40','2 min @ 4:38','1 min @ 4:35','60s rest after every rep']},
-          {day:'Fri 21',id:'w1hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey},
-          {day:'Sat 22',id:'w1easy2',emoji:'🏃',name:'Easy Run',type:'detail',sub:'25–30 min + strides',
-           lines:['25–30 min easy + 4 strides']},
-          {day:'Sun 23',id:'w1r2',emoji:'🛁',name:'Rest Day',type:'rest'}
+          {day:'Thu 20',id:'w1r2',emoji:'🛁',name:'Rest Day — poorly',type:'rest'},
+          {day:'Fri 21',id:'w1r3',emoji:'🛁',name:'Rest Day — poorly',type:'rest'},
+          {day:'Sat 22',id:'w1int',emoji:'⚡',name:'Intervals 1 — conditional',type:'detail',sub:'5-4-3-2-1 · only if clear',
+           lines:INTERVALS.concat(['🚦 GO only if the malaise has gone','If borderline: 2km instead of 3km, and 4-3-2-1','No-go? Easy 25 min, intervals Monday'])},
+          {day:'Sun 23',id:'w1r4',emoji:'😴',name:'Rest Day',type:'rest'}
         ]};
     }
 
     if(n===2){
-      return {focus:'🎯 Week 2 · the big interval session',
-        note:'Monday is the one that tells you. Hold 4:45 through the 6 and the 5 and 24:09 is genuinely on.',
+      return {focus:'🔄 Week 2 · back into it',
+        note:'First full week back. Compromised comes in at one round — the tempo slot becomes HYROX work.',
         sessions:[
-          {day:'Mon 24',id:'w2int',emoji:'⚡',name:'Intervals 2 — the predictor',type:'detail',sub:'6-5-4-3-2-1 @ 4:33–4:45',
-           lines:['3km @ 5:45/km','⏸ 3 min recovery','6 min @ 4:45','5 min @ 4:45','4 min @ 4:42','3 min @ 4:40','2 min @ 4:38','1 min @ 4:33','60s rest after every rep','21 min of work — this is the read']},
-          {day:'Tue 25',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB'},
-          {day:'Wed 26',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu 27',id:'w2tempo',emoji:'🔥',name:'Tempo Run',type:'detail',sub:'20 min by feel',
-           lines:['20 min continuous','Comfortably hard — a few words, not a conversation','~85–88% max HR','Will likely land 5:20–5:30/km','Do NOT chase a number — effort decides this one']},
-          {day:'Fri 28',id:'w2r2',emoji:'🛁',name:'Rest Day',type:'rest'},
-          {day:'Sat 29',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey},
-          {day:'Sun 30',id:'w2easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'25–30 min + strides',
-           lines:['25–30 min easy + 4 strides']}
+          {day:'Mon 24',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:'⚠️ Sleds at 80% — first hard session back'},
+          {day:'Tue 25',id:'w2easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'25–30 min',lines:['25–30 min easy + 4 strides']},
+          {day:'Wed 26',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB'},
+          {day:'Thu 27',id:'w2int',emoji:'⚡',name:'Intervals 2',type:'detail',sub:'5-4-3-2-1 @ 4:35–4:45',lines:INTERVALS},
+          {day:'Fri 28',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Sat 29',id:'w2comp',emoji:'🥵',name:'Compromised — 1 round',type:'detail',sub:'1 round · first one back',lines:compLines(2)},
+          {day:'Sun 30',id:'w2r2',emoji:'🛁',name:'Rest Day',type:'rest'}
         ]};
     }
 
     if(n===3){
-      return {focus:'🏁 Week 3 · 5K ATTEMPT — Sat 5 Sep · target 24:09',
-        note:'Monday sharpens, nothing hard after Wednesday. Km 1 at 5:00 — that is what buys you the finish.',
+      return {focus:'📈 Week 3 · biggest week before the test',
+        note:'Tuesday is the one that tells you. Compromised doubles to 2 rounds Friday.',
         sessions:[
-          {day:'Mon 31',id:'w3int',emoji:'⚡',name:'Intervals 3 — sharpener',type:'detail',sub:'4-3-2-1 @ 4:32–4:43',
-           lines:['2km @ 5:45/km','⏸ 3 min recovery','4 min @ 4:43','3 min @ 4:40','2 min @ 4:37','1 min @ 4:32','60s rest after every rep','Halved volume — leave feeling sharp, not tired']},
-          {day:'Tue 1 Sep',id:'w3low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA',note:'⚠️ Moderate load — nothing maximal in test week'},
-          {day:'Wed 2',id:'w3hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:'⚠️ Sleds moderate — last hard session'},
+          {day:'Mon 31',id:'w3easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'25–30 min',lines:['25–30 min easy + 4 strides','Shakeout before tomorrow']},
+          {day:'Tue 1 Sep',id:'w3int',emoji:'⚡',name:'Intervals 3 — the big one',type:'detail',sub:'5-4-3-2-1 @ 4:35–4:45',
+           lines:INTERVALS.concat(['This is your read — if the reps hold, 24:09 is on'])},
+          {day:'Wed 2',id:'w3low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA'},
           {day:'Thu 3',id:'w3r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Fri 4',id:'w3shake',emoji:'🌿',name:'Shakeout Run',type:'detail',sub:'12–15 min + strides',
+          {day:'Fri 4',id:'w3comp',emoji:'🥵',name:'Compromised — 2 rounds',type:'detail',sub:'2 rounds',lines:compLines(3)},
+          {day:'Sat 5',id:'w3r2',emoji:'🛁',name:'Rest Day',type:'rest'},
+          {day:'Sun 6',id:'w3hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey}
+        ]};
+    }
+
+    if(n===4){
+      return {focus:'🏁 Week 4 · 5K ATTEMPT — Sat 12 Sep · target 24:09',
+        note:'Nothing hard after Wednesday. No compromised this week — it would undo the attempt. Km 1 at 5:00.',
+        sessions:[
+          {day:'Mon 7',id:'w4int',emoji:'⚡',name:'Intervals 4 — sharpener',type:'detail',sub:'5-4-3-2-1 @ 4:35–4:45',
+           lines:INTERVALS.concat(['Last hard session — leave feeling sharp, not tired'])},
+          {day:'Tue 8',id:'w4r1',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Wed 9',id:'w4low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerB',note:'⚠️ Moderate — nothing maximal in test week'},
+          {day:'Thu 10',id:'w4r2',emoji:'😴',name:'Rest Day',type:'rest'},
+          {day:'Fri 11',id:'w4shake',emoji:'🌿',name:'Shakeout Run',type:'detail',sub:'12–15 min + strides',
            lines:['12–15 min easy','4 × 20s strides','Keep it light']},
-          {day:'Sat 5',id:'w3test',emoji:'🏁',name:'5K ATTEMPT — target 24:09',type:'race',lines:[
+          {day:'Sat 12',id:'w4test',emoji:'🏁',name:'5K ATTEMPT — 24:09',type:'race',lines:[
             'PB 24:10 · target 24:09',
             'Km 1: 5:00 — do NOT go faster ⏱',
             'Km 2: 4:52  (9:52)',
@@ -871,8 +881,9 @@
             'Km 4: 4:48  (19:32)',
             'Km 5: 4:37  (24:09)',
             'Your PB came off a big negative split — km 1 feeling too easy is the plan working',
-            'Last 2km: let the HR go to 185+. You averaged 167 in May and left time out there']},
-          {day:'Sun 6',id:'w3r2',emoji:'🛁',name:'Rest Day',type:'rest'}
+            'Last 2km: let the HR go past 180. You averaged 167 in May and left time out there']},
+          {day:'Sun 13',id:'w4tenk',emoji:'🏔️',name:'Hilly 10K — jogged',type:'detail',sub:'jog / walk, no pace',
+           lines:['5km up, 5km down','WALK the descents — eccentric loading on race legs is where you get hurt','Take the climbs at whatever pace','No watch, no pace, enjoy it','Mon + Tue after: genuinely easy']}
         ]};
     }
 
@@ -883,16 +894,17 @@
     }else{
       focus='Week '+n+' of 11 · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
       note='';
+      if(n===5)note='🏁 Week after the 5K and the hilly 10K. Mon + Tue genuinely easy. Compromised up to 2 rounds. Threshold block starts week 7.';
     }
 
     var sess=[
-      {id:'hxlong',emoji:'🌿',name:'Long Run',type:'detail',lines:['60 min Zone 2']},
-      {id:'hxlow',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey,
-       note:(n===7?'⚠️ 3×5 this week, back off ~10%':'')},
+      {id:'hxlong',emoji:'🌿',name:'Long Run',type:'detail',sub:'60 min Z2',lines:['60 min Zone 2','6:15–6:45/km — keep it genuinely easy']},
+      {id:'hxlow',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey,note:''},
       {id:'hxcomp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(n),sub:comp.r},
       {id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:''},
-      {id:'hxtempo',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(n),
-       sub:threshSub(n)+' quality'},
+      (n>=7
+        ? {id:'hxtempo',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(n),sub:threshSub(n)}
+        : {id:'hxeasy',emoji:'🏃',name:'Easy Run',type:'detail',sub:'25–30 min',lines:['25–30 min easy + 4 strides','Threshold block starts week 7']}),
       {id:'hxr1',emoji:'😴',name:'Rest Day',type:'rest'},
       {id:'hxr2',emoji:'🛁',name:'Rest Day',type:'rest'}
     ];
@@ -1097,6 +1109,6 @@
   hxRender();
 })();
 </script>
-<!-- v9 threshold wk4-10 -->
+<!-- v10 5k block rebuilt -->
 </body>
 </html>
