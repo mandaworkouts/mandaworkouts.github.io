@@ -718,18 +718,15 @@
 
   function compLines(n){
     var c=HX_COMP[n]||{r:'2 rounds',b:'25m'};
-    return ['800m run — strong / continuous','20 wall balls','20 front rack DB walking lunges',
-      '400m run — faster than race pace',c.b+' burpee broad jumps','⏸ 2 min rest',
-      '20 wall balls','20 front rack DB walking lunges','400m run — faster than race pace',
-      c.b+' burpee broad jumps','↻ '+c.r+' — the 800m opens every round',
-      '——— TARGETS ———',
-      '🏃 OUTDOORS · 800m @ 5:50–6:00/km',
-      '🏃 OUTDOORS · 400m @ 5:20–5:30/km',
-      '🫀 TREADMILL · 800m 165–172 bpm',
-      '🫀 TREADMILL · 400m 172–178 bpm',
-      '⚠️ Never above 180',
-      '800m = race pace rehearsal · 400m = faster, so race pace feels easy',
-      'By November 5:55 should feel routine — because you will have run it a hundred times'];
+    var R8='800m run @ 5:50–6:00/km · 165–172 bpm';
+    var R4='400m run @ 5:20–5:30/km · 172–178 bpm';
+    return [R8,'20 wall balls','20 front rack DB walking lunges',
+      R4,c.b+' burpee broad jumps','⏸ 2 min rest',
+      '20 wall balls','20 front rack DB walking lunges',
+      R4,c.b+' burpee broad jumps',
+      '↻ '+c.r+' — the 800m opens every round',
+      '⚠️ Never above 180 bpm',
+      '800m = race pace rehearsal · 400m = faster, so race pace feels easy'];
   }
 
   var HX_THRESH_HR={
@@ -1120,6 +1117,6 @@
   hxRender();
 })();
 </script>
-<!-- v12 comp wording -->
+<!-- v13 inline paces -->
 </body>
 </html>
