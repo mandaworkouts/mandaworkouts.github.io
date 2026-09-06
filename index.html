@@ -629,6 +629,7 @@
   var HX_WEEKSEL_KEY='manda-hyrox-week';
   var HX_START=new Date(2026,7,17);   /* Mon 17 Aug 2026 */
   var HX_TOTAL=11;
+  var HX_FIRST=4;
 
   var LOWER_WARM=[
     'Inchworm to world’s greatest stretch',
@@ -706,8 +707,8 @@
   };
 
   var hxGym=load(HX_PLAN_KEY,null)||JSON.parse(JSON.stringify(HX_GYM_DEFAULT));
-  var hxWeek=load(HX_WEEKSEL_KEY,1);
-  if(hxWeek<1||hxWeek>HX_TOTAL)hxWeek=1;
+  var hxWeek=load(HX_WEEKSEL_KEY,HX_FIRST);
+  if(hxWeek<HX_FIRST||hxWeek>HX_TOTAL)hxWeek=HX_FIRST;
   var hxOpen={};
 
   var HX_COMP={
@@ -806,48 +807,6 @@
         ]};
     }
 
-    if(n===1){
-      return {focus:'🤒 Week 1 · illness week',
-        note:'Cold from Tuesday night. Written off — nothing lost that the extra week has not bought back.',
-        sessions:[
-          {day:'Mon 17',id:'w1easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'done ✅',lines:['25–30 min easy + 4 strides']},
-          {day:'Tue 18',id:'w1low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:'lowerA'},
-          {day:'Wed 19',id:'w1r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu 20',id:'w1r2',emoji:'🛁',name:'Rest Day — poorly',type:'rest'},
-          {day:'Fri 21',id:'w1r3',emoji:'🛁',name:'Rest Day — poorly',type:'rest'},
-          {day:'Sat 22',id:'w1r4',emoji:'🛁',name:'Rest Day — poorly',type:'rest'},
-          {day:'Sun 23',id:'w1r5',emoji:'😴',name:'Rest Day',type:'rest'}
-        ]};
-    }
-
-    if(n===2){
-      return {focus:'🔄 Week 2 · easing back in',
-        note:'Still shaking the cold off. Compromised comes in at one round — keep it honest, not heroic.',
-        sessions:[
-          {day:'Mon 24',id:'w2jog',emoji:'🌿',name:'Jog / Walk',type:'detail',sub:'done ✅ 2.7km',lines:['2.7km jog/walk, 24 min','Rough during, fine after — that is the tail end']},
-          {day:'Tue 25',id:'w2low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey},
-          {day:'Wed 26',id:'w2r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu 27',id:'w2comp',emoji:'🥵',name:'Compromised — 1 round',type:'detail',sub:'1 round · first one back',lines:compLines(2)},
-          {day:'Fri 28',id:'w2r2',emoji:'🛁',name:'Rest Day',type:'rest'},
-          {day:'Sat 29',id:'w2int',emoji:'⚡',name:'Intervals',type:'detail',sub:'5-4-3-2-1 @ 4:35–4:45',lines:INTERVALS},
-          {day:'Sun 30',id:'w2hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:'⚠️ Sleds at 80% — first hard one back'}
-        ]};
-    }
-
-    if(n===3){
-      return {focus:'📈 Week 3 · full week',
-        note:'Everything back on. Compromised doubles to 2 rounds.',
-        sessions:[
-          {day:'Mon 31',id:'w3r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Tue 1 Sep',id:'w3int',emoji:'⚡',name:'Intervals',type:'detail',sub:'5-4-3-2-1 @ 4:35–4:45',lines:INTERVALS},
-          {day:'Wed 2',id:'w3low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey},
-          {day:'Thu 3',id:'w3r2',emoji:'🛁',name:'Rest Day',type:'rest'},
-          {day:'Fri 4',id:'w3comp',emoji:'🥵',name:'Compromised — 2 rounds',type:'detail',sub:'2 rounds',lines:compLines(3)},
-          {day:'Sat 5',id:'w3hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey},
-          {day:'Sun 6',id:'w3long',emoji:'🌿',name:'Easy Long Run',type:'detail',sub:'60 min Z2',lines:['60 min Zone 2','6:15–6:45/km — genuinely easy']}
-        ]};
-    }
-
     if(n===4){
       return {focus:'🚴 Week 4 · spin week — building back',
         note:'Two spin classes in for instructor training. Tuesday spin replaces the threshold. Thursday spin covers the cardio, so leave the Cardio Mix off the gym session.',
@@ -899,7 +858,7 @@
     }
 
     var focus,note;
-    focus='Week '+n+' of 11 · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
+    focus='Week '+n+' · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
     note='Any order — never two running days back to back, and rest the day after Compromised.';
     if(n===5)note='📈 Threshold block starts — 4 × 5 min, the first one back. Find the feel, do not race it. Compromised stays at 2 rounds.';
     if(n===8)note='💪 Back up after the deload. Compromised jumps to 3 rounds — 4.8km, the same running as the doubles. Threshold to 4 × 7.';
@@ -921,7 +880,7 @@
   function hxRenderChips(){
     var c=document.getElementById('hxChips');
     c.innerHTML='';
-    for(var i=1;i<=HX_TOTAL;i++){
+    for(var i=HX_FIRST;i<=HX_TOTAL;i++){
       (function(w){
         var b=document.createElement('button');
         b.className='chip'+(w===hxWeek?' active':'');
@@ -931,9 +890,9 @@
       })(i);
     }
     var wk=hxBuild(hxWeek);
-    var left=HX_TOTAL-hxWeek;
+    var left=HX_TOTAL-hxWeek+1;
     document.getElementById('hxFocus').textContent=
-      hxDates(hxWeek)+' · '+(left===0?'RACE WEEK 🏁':left+' week'+(left===1?'':'s')+' to race day');
+      hxDates(hxWeek)+' · '+(left===1?'RACE WEEK 🏁':left+' weeks to go');
   }
 
   function hxRender(){
