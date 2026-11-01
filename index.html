@@ -3,216 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Manda's Training Week</title>
+<title>Manda - Strength Block</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#faf6f1;
-    --card:#ffffff;
-    --ink:#2d2438;
-    --muted:#8a7f96;
+    --bg:#faf6f1; --card:#ffffff; --ink:#2d2438; --muted:#8a7f96;
     --grad:linear-gradient(135deg,#7c3aed 0%,#ec4899 55%,#f97316 100%);
-    --accent:#ec4899;
-    --done-bg:#eefaf2;
-    --done-border:#7fd8a4;
-    --done-ink:#1e7d4f;
-    --rest:#eef3fb;
-    --radius:18px;
-    --shadow:0 4px 16px rgba(45,36,56,.08);
+    --accent:#ec4899; --done-bg:#eefaf2; --done-border:#7fd8a4; --done-ink:#1e7d4f;
+    --radius:18px; --shadow:0 4px 16px rgba(45,36,56,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    background:var(--bg);color:var(--ink);
-    min-height:100vh;padding-bottom:60px;
-    -webkit-tap-highlight-color:transparent;
-  }
+  body{font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:60px;
+    -webkit-tap-highlight-color:transparent;}
   .wrap{max-width:520px;margin:0 auto;padding:0 14px;}
-
-  /* ---------- Header ---------- */
-  header{
-    background:var(--grad);
-    border-radius:0 0 28px 28px;
-    padding:26px 20px 22px;
-    color:#fff;text-align:center;
-    box-shadow:0 6px 20px rgba(124,58,237,.25);
-  }
-  header h1{font-size:1.45rem;font-weight:800;letter-spacing:.3px;}
+  header{background:var(--grad);border-radius:0 0 28px 28px;padding:26px 20px 22px;
+    color:#fff;text-align:center;box-shadow:0 6px 20px rgba(124,58,237,.25);}
+  header h1{font-size:1.4rem;font-weight:800;letter-spacing:.3px;}
   header .week{font-size:.85rem;opacity:.92;margin-top:3px;font-weight:500;}
   .progress-row{margin-top:16px;}
   .progress-label{font-size:.8rem;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;}
   .bar{background:rgba(255,255,255,.28);border-radius:99px;height:12px;overflow:hidden;}
   .bar-fill{background:#fff;height:100%;border-radius:99px;width:0%;transition:width .4s ease;}
-  .smashed{
-    display:none;margin-top:14px;background:rgba(255,255,255,.2);
-    border-radius:12px;padding:8px 12px;font-weight:700;font-size:.95rem;
-  }
+  .smashed{display:none;margin-top:14px;background:rgba(255,255,255,.2);
+    border-radius:12px;padding:8px 12px;font-weight:700;font-size:.95rem;}
   .smashed.show{display:block;animation:pop .4s ease;}
   @keyframes pop{0%{transform:scale(.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
-
-  /* ---------- Tabs ---------- */
-  .tabs{display:flex;gap:8px;margin:18px 0 14px;}
-  .tab{
-    flex:1;border:none;padding:10px 6px;border-radius:12px;
-    font-family:inherit;font-weight:600;font-size:.85rem;cursor:pointer;
-    background:#efe8f6;color:#6b5a85;
-  }
-  .tab.active{background:var(--ink);color:#fff;}
-  .coming-soon{
-    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:28px 20px;text-align:center;display:none;
-  }
-  .coming-soon h2{font-size:1.05rem;margin-bottom:8px;}
-  .coming-soon p{font-size:.85rem;color:var(--muted);line-height:1.5;}
-
-  /* ---------- Plan week selector ---------- */
-  .weeksel{
-    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:12px 14px;margin-bottom:14px;
-  }
-  .weeksel .wk-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:8px;text-align:center;}
-  .chips{display:flex;gap:8px;}
-  .chip{
-    flex:1;border:1.5px solid #ece5f3;background:#fdfcff;border-radius:10px;
-    padding:8px 4px;font-family:inherit;font-weight:700;font-size:.85rem;
-    color:#6b5a85;cursor:pointer;
-  }
-  .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(236,72,153,.35);}
+  .weeksel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:12px 14px;margin:18px 0 14px;}
+  .wk-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--muted);margin-bottom:8px;text-align:center;}
+  .chips{display:flex;gap:6px;}
+  .chip{flex:1;border:1.5px solid #ece5f3;background:#fdfcff;border-radius:10px;
+    padding:8px 2px;font-family:inherit;font-weight:700;font-size:.78rem;color:#6b5a85;cursor:pointer;}
+  .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;
+    box-shadow:0 3px 10px rgba(236,72,153,.35);}
   .wk-focus{font-size:.72rem;color:var(--muted);text-align:center;margin-top:8px;font-weight:500;}
-  .chips.wrap{flex-wrap:wrap;gap:6px;}
-  .chips.wrap .chip{flex:0 0 calc(25% - 5px);padding:7px 2px;font-size:.76rem;}
-  .daytag{
-    display:inline-block;font-size:.6rem;font-weight:800;text-transform:uppercase;
-    letter-spacing:.6px;color:var(--accent);background:#fdf3f8;border-radius:6px;
-    padding:2px 6px;margin-bottom:3px;
-  }
-  .card.raceday{background:linear-gradient(135deg,#fff7ed,#fdf3f8);border-color:var(--accent);}
-  .card.raceday .titlebox .name{color:var(--accent);font-weight:800;}
-  .wk-note{
-    background:#fdf3f8;border-radius:12px;padding:10px 12px;margin-bottom:12px;
-    font-size:.72rem;line-height:1.6;color:#5a4f68;
-  }
+  .wk-note{background:#fdf3f8;border-radius:12px;padding:10px 12px;margin-bottom:12px;
+    font-size:.72rem;line-height:1.6;color:#5a4f68;}
   .wk-note b{color:var(--accent);}
-
-  /* ---------- Session cards ---------- */
-  .hint{font-size:.75rem;color:var(--muted);text-align:center;margin-bottom:12px;}
-  .card{
-    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    margin-bottom:12px;overflow:hidden;border:2px solid transparent;
-    transition:border-color .2s,background .2s;
-  }
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    margin-bottom:12px;overflow:hidden;border:2px solid transparent;transition:border-color .2s,background .2s;}
   .card.done{background:var(--done-bg);border-color:var(--done-border);}
-  .card.rest{background:var(--rest);}
-  .card.rest.done{background:var(--done-bg);}
-  .card-head{display:flex;align-items:center;padding:14px 14px;gap:12px;}
+  .card-head{display:flex;align-items:center;padding:14px;gap:12px;}
   .emoji{font-size:1.5rem;width:38px;text-align:center;flex-shrink:0;}
   .titlebox{flex:1;min-width:0;}
   .titlebox .name{font-weight:600;font-size:.95rem;line-height:1.3;}
   .card.done .titlebox .name{color:var(--done-ink);}
   .titlebox .sub{font-size:.74rem;color:var(--muted);margin-top:2px;line-height:1.4;}
-  .titlebox .sub b{color:#6b5a85;}
-  .chev{
-    border:none;background:none;font-size:1rem;color:var(--muted);
-    cursor:pointer;padding:6px;transition:transform .2s;font-family:inherit;
-  }
+  .chev{border:none;background:none;font-size:1rem;color:var(--muted);cursor:pointer;
+    padding:6px;transition:transform .2s;font-family:inherit;}
   .chev.open{transform:rotate(180deg);}
-  .tick{
-    width:40px;height:40px;border-radius:50%;flex-shrink:0;cursor:pointer;
+  .tick{width:40px;height:40px;border-radius:50%;flex-shrink:0;cursor:pointer;
     border:2.5px solid #d9cfe6;background:#fff;font-size:1.15rem;color:transparent;
-    display:flex;align-items:center;justify-content:center;transition:all .15s;
-  }
+    display:flex;align-items:center;justify-content:center;transition:all .15s;}
   .tick.on{background:#34c07c;border-color:#34c07c;color:#fff;box-shadow:0 3px 10px rgba(52,192,124,.4);}
-
-  /* ---------- Exercise editor ---------- */
-  .exercises{display:none;padding:2px 14px 14px;}
-  .exercises.open{display:block;}
+  .exercises,.detail{display:none;padding:2px 14px 14px;}
+  .exercises.open,.detail.open{display:block;}
   .block{margin-bottom:14px;}
-  .block-label{
-    font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;
-    color:var(--accent);margin-bottom:2px;
-  }
-  .block-note{font-size:.7rem;color:var(--muted);margin-bottom:6px;font-style:italic;}
-  .wu-item{
-    font-size:.76rem;padding:5px 10px;background:#f4f0fa;border-radius:8px;
-    margin-bottom:4px;color:#5a4f68;font-weight:500;
-  }
-  .ex-row{
-    display:grid;grid-template-columns:22px 1fr 20px;gap:8px;
-    align-items:flex-start;margin-bottom:10px;
-  }
+  .block-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--accent);margin-bottom:4px;}
+  .wu-item{font-size:.76rem;padding:5px 10px;background:#f4f0fa;border-radius:8px;
+    margin-bottom:4px;color:#5a4f68;font-weight:500;}
+  .ex-row{display:grid;grid-template-columns:22px 1fr 20px;gap:8px;align-items:flex-start;margin-bottom:10px;}
   .ex-main{min-width:0;}
   .ex-name{width:100%;margin-bottom:4px;}
   .ex-sub{display:flex;gap:6px;align-items:center;}
-  .ex-sub .lab{font-size:.6rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;flex-shrink:0;}
-  .ex-row input.ex-reps{width:64px;flex:0 0 64px;}
+  .ex-sub .lab{font-size:.6rem;color:var(--muted);font-weight:700;text-transform:uppercase;
+    letter-spacing:.4px;flex-shrink:0;}
+  .ex-row input.ex-reps{width:96px;flex:0 0 96px;}
   .ex-row input.ex-weight{width:auto;flex:1 1 auto;min-width:0;}
   .ex-row .extick,.ex-row .exdel{margin-top:8px;}
-  .ex-row input{
-    width:100%;border:1.5px solid #ece5f3;border-radius:9px;padding:7px 8px;
-    font-family:inherit;font-size:.78rem;color:var(--ink);background:#fdfcff;
-    font-weight:500;
-  }
+  .ex-row input{width:100%;border:1.5px solid #ece5f3;border-radius:9px;padding:7px 8px;
+    font-family:inherit;font-size:.78rem;color:var(--ink);background:#fdfcff;font-weight:500;}
   .ex-row input:focus{outline:none;border-color:var(--accent);}
   .ex-row.exdone input{color:#9bb3a5;text-decoration:line-through;}
-  .extick{
-    width:20px;height:20px;border-radius:6px;border:2px solid #d9cfe6;background:#fff;
-    cursor:pointer;font-size:.7rem;color:transparent;display:flex;align-items:center;justify-content:center;
-    padding:0;
-  }
+  .extick{width:20px;height:20px;border-radius:6px;border:2px solid #d9cfe6;background:#fff;
+    cursor:pointer;font-size:.7rem;color:transparent;display:flex;align-items:center;
+    justify-content:center;padding:0;}
   .extick.on{background:#34c07c;border-color:#34c07c;color:#fff;}
-  .exdel{
-    border:none;background:none;color:#d3c6e0;font-size:1rem;cursor:pointer;
-    padding:2px;font-family:inherit;
-  }
-  .exdel:hover{color:#e0526e;}
-  .addex{
-    margin-top:2px;border:1.5px dashed #d9cfe6;background:none;border-radius:10px;
-    width:100%;padding:7px;font-family:inherit;font-size:.74rem;font-weight:600;
-    color:var(--muted);cursor:pointer;
-  }
-  .addex:hover{border-color:var(--accent);color:var(--accent);}
-
-  /* ---------- Session detail (cardio expand) ---------- */
-  .detail{display:none;padding:0 16px 14px;}
-  .detail.open{display:block;}
+  .exdel{border:none;background:none;color:#d3c6e0;font-size:1rem;cursor:pointer;padding:2px;font-family:inherit;}
+  .addex{margin-top:2px;border:1.5px dashed #d9cfe6;background:none;border-radius:10px;
+    width:100%;padding:7px;font-family:inherit;font-size:.74rem;font-weight:600;color:var(--muted);cursor:pointer;}
   .detail ul{list-style:none;}
-  .detail li{
-    font-size:.8rem;padding:7px 10px;background:#fdf3f8;border-radius:10px;
-    margin-bottom:6px;line-height:1.45;
-  }
-  .detail .opt-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);margin-bottom:6px;}
-
-  /* ---------- Plan notes ---------- */
-  .notes{
-    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    margin-top:18px;overflow:hidden;
-  }
-  .notes summary{
-    padding:14px 16px;font-weight:700;font-size:.9rem;cursor:pointer;list-style:none;
-  }
+  .detail li{font-size:.8rem;padding:7px 10px;background:#fdf3f8;border-radius:10px;
+    margin-bottom:6px;line-height:1.45;}
+  .notes{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    margin-top:18px;overflow:hidden;}
+  .notes summary{padding:14px 16px;font-weight:700;font-size:.9rem;cursor:pointer;list-style:none;}
   .notes summary::-webkit-details-marker{display:none;}
   .notes-body{padding:0 16px 16px;font-size:.78rem;line-height:1.6;color:#5a4f68;}
-  .notes-body h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;color:var(--accent);margin:12px 0 4px;}
+  .notes-body h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--accent);margin:12px 0 4px;}
   .notes-body table{width:100%;border-collapse:collapse;font-size:.74rem;}
   .notes-body td{padding:4px 6px;border-bottom:1px solid #f2ecf7;}
   .notes-body td:first-child{font-weight:600;white-space:nowrap;}
   .notes-body li{margin-left:16px;margin-bottom:3px;}
-
-  /* ---------- Footer ---------- */
   .foot{margin-top:22px;text-align:center;}
   .foot p{font-size:.72rem;color:var(--muted);line-height:1.6;}
-  .resetbtn{
-    margin-top:10px;border:none;background:#efe8f6;color:#6b5a85;border-radius:99px;
-    padding:8px 18px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer;
-  }
-  .resetbtn:hover{background:#e4d9f0;}
+  .resetbtn{margin-top:10px;border:none;background:#efe8f6;color:#6b5a85;border-radius:99px;
+    padding:8px 18px;font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer;}
 </style>
 </head>
 <body>
-
 <header>
   <div class="wrap">
-    <h1>Manda's HYROX Block 🏁</h1>
+    <h1>Strength Block 🏋️</h1>
     <div class="week" id="weekLabel"></div>
     <div class="progress-row">
       <div class="progress-label"><span>Sessions done</span><span id="progText">0 / 6</span></div>
@@ -221,771 +117,247 @@
     <div class="smashed" id="smashed">Week smashed! 🎉 Go you!</div>
   </div>
 </header>
-
 <div class="wrap">
-  <div class="tabs" style="display:none">
-    <button class="tab active" id="tabCurrent">5K PB Block</button>
-    <button class="tab" id="tabHyrox">🏁 HYROX Block</button>
+  <div class="weeksel">
+    <div class="wk-title">🏁 Manchester - Thu 28 Jan</div>
+    <div class="chips" id="chips"></div>
+    <div class="wk-focus" id="focus"></div>
   </div>
-
-  <div id="currentView" style="display:none">
-    <div class="weeksel">
-      <div class="wk-title">🎯 5K PB plan · which week are you on?</div>
-      <div class="chips" id="weekChips"></div>
-      <div class="wk-focus" id="weekFocus"></div>
+  <div id="note"></div>
+  <div id="sessions"></div>
+  <details class="notes">
+    <summary>📖 Block notes</summary>
+    <div class="notes-body">
+      <h3>Threshold</h3>
+      <table>
+        <tr><td>Pace band</td><td>5:30-5:40/km</td></tr>
+        <tr><td>Treadmill</td><td>10.6-10.9 at 1% incline</td></tr>
+        <tr><td>Heart rate</td><td>164-168 - over 170, slow down</td></tr>
+      </table>
+      <h3>Lifting</h3>
+      <ul>
+        <li>Add 2.5kg to a main lift only when all 18 reps are clean and the last one is not a grind</li>
+        <li>Holding your lifts through a deficit is a win, not a consolation</li>
+      </ul>
+      <h3>Deficit</h3>
+      <ul>
+        <li>300 kcal, 9 Nov - 20 Dec</li>
+        <li>If sessions start getting binned or the numbers drift, the food goes up - not the training down</li>
+      </ul>
+      <h3>Coming up</h3>
+      <ul>
+        <li>HYROX block 7 Dec - 17 Jan</li>
+        <li>Taper 18-28 Jan</li>
+        <li>28 Dec is 31 days out - Flex refund deadline</li>
+      </ul>
     </div>
-
-    <p class="hint">Tap the circle when a session's done · tap any weight or reps to edit — it saves automatically</p>
-    <div id="sessions"></div>
-
-    <details class="notes">
-      <summary>📖 Plan notes — paces &amp; rules</summary>
-      <div class="notes-body">
-        <h3>Training paces</h3>
-        <table>
-          <tr><td>Easy / Z2</td><td>6:15–6:45/km</td></tr>
-          <tr><td>Tempo</td><td>5:15–5:20/km</td></tr>
-          <tr><td>Goal pace</td><td>5:00–5:05/km</td></tr>
-          <tr><td>Intervals</td><td>4:45–4:55/km</td></tr>
-          <tr><td>Fast reps</td><td>4:25–4:40/km</td></tr>
-        </table>
-        <h3>Ordering rules</h3>
-        <ul>
-          <li>At least one easy/rest day between the three hard sessions (intervals, tempo, bike)</li>
-          <li>Never stack intervals and tempo back to back</li>
-          <li>No intervals the morning after a heavy lower-body day — tempo or easy sits better there</li>
-        </ul>
-        <h3>Guardrails</h3>
-        <ul>
-          <li>🦵 Left hip/glute: activation work before <b>every</b> speed session</li>
-          <li>🌡️ Above ~18°C: add 5–8s/km and judge by effort/HR</li>
-          <li>⏭️ Missed session? Just move on — never cram two hard days together</li>
-        </ul>
-      </div>
-    </details>
-
-    <div class="foot">
-      <p>Ticks reset automatically every Monday — weights &amp; reps stay saved. ✅</p>
-      <button class="resetbtn" id="resetWeek">Reset this week's ticks</button>
-    </div>
-  </div>
-
-  <div id="hyroxView">
-    <div class="weeksel">
-      <div class="wk-title">🏁 HYROX block · race Sun 1 Nov</div>
-      <div class="chips wrap" id="hxChips"></div>
-      <div class="wk-focus" id="hxFocus"></div>
-    </div>
-    <div id="hxNote"></div>
-    <div id="hxSessions"></div>
-
-    <details class="notes">
-      <summary>📖 Ordering rules — how to lay the week out</summary>
-      <div class="notes-body">
-        <h3>The big one</h3>
-        <ul>
-          <li>🏃 <b>Never two running days back to back.</b> Long Run, Threshold and Compromised are the three that drain you — spread them 2–3 days apart</li>
-        </ul>
-        <h3>Rest days</h3>
-        <ul>
-          <li>😴 Always rest the day <b>after</b> Compromised — no running on wrecked legs</li>
-          <li>💪 That same rest day sets up HYROX day fresh for heavy sleds</li>
-          <li>📏 Keep your two rest days ~3 days apart, not bunched</li>
-        </ul>
-        <h3>Gym</h3>
-        <ul>
-          <li>🔥 Threshold sits fine the day after Lower — never the day before HYROX day</li>
-          <li>🦵 Lower can sit next to Compromised: its conditioning is ski/row/bike, so it isn't adding running load</li>
-        </ul>
-        <h3>The weekly shape</h3>
-        <ul>
-          <li>🌿 <b>Mon</b> — Easy Long Run</li>
-          <li>😴 <b>Tue</b> — Rest</li>
-          <li>🔥🦵 <b>Wed</b> — Threshold, then Lower Strength (run first, always)</li>
-          <li>🛁 <b>Thu</b> — Rest</li>
-          <li>🥵 <b>Fri</b> — Compromised</li>
-          <li>😴 <b>Sat</b> — Rest</li>
-          <li>🎯 <b>Sun</b> — HYROX &amp; Upper Strength</li>
-        </ul>
-        <h3>Why this order</h3>
-        <ul>
-          <li>Lifting blunts running for 24–36h, so heavy legs sit <b>two nights</b> clear of the Compromised</li>
-          <li>Strength always goes <b>after</b> a hard run, never the day before one</li>
-          <li>Saturday rest does double duty: recovery from Friday, fresh sleds for Sunday</li>
-        </ul>
-      </div>
-    </details>
-
-    <div class="foot">
-      <p>Ticks reset automatically every Monday — weights &amp; reps stay saved. ✅</p>
-      <button class="resetbtn" id="hxResetWeek">Reset this week's ticks</button>
-    </div>
+  </details>
+  <div class="foot">
+    <p>Ticks reset every Monday - weights and reps stay saved. ✅</p>
+    <button class="resetbtn" id="resetBtn">Reset this week</button>
   </div>
 </div>
-
 <script>
 (function(){
-  var PLAN_KEY='manda-training-plan-v3';
-  var WEEKSEL_KEY='manda-plan-week';
+  var PLAN_KEY='manda-strength-plan-v1';
+  var WEEKSEL_KEY='manda-strength-week';
+  var START=new Date(2026,10,2);
+  var TOTAL=5;
+  var RACE=new Date(2027,0,28);
 
-  var CALF_SCHEME='15s hold + 5 lift + 5 dbl-ecc';
-
-  var WARMUP_OPTIONS=[
-    'Rotator band warmup',
-    'Inchworm to world’s greatest stretch',
-    'Side plank abduction',
-    'Airplane RDL warmup',
-    'Bag drag',
-    'ON TOES farmers carry'
-  ];
-
-  var DEFAULT_PLAN={sessions:[
-    {id:'strengthA',emoji:'💪',name:'Full Body 1',type:'gym',blocks:[
-      {label:'Superset 1 · ×2 rounds',note:'Warm-up first: deep barbell squat 2×12',exercises:[
-        {name:'Weighted Squat',reps:'8',weight:'30kg'},
-        {name:'KB Horn Scapula Lift',reps:'6',weight:'6kg'},
-        {name:'SL Calf Raises (new)',reps:CALF_SCHEME,weight:'20kg'}
-      ]},
-      {label:'Superset 2 · ×2 rounds',note:'',exercises:[
-        {name:'Rotation Thrusters',reps:'6',weight:'2×8kg DB'},
-        {name:'Single-Leg RDL (opp. side)',reps:'6',weight:'9kg DB'}
-      ]},
-      {label:'Superset 3 · ×2 rounds',note:'',exercises:[
-        {name:'Eccentric Pull-Ups (max) OR Gorilla Rotation KB Rows',reps:'6',weight:'2×12kg'},
-        {name:'Single-Arm Press (heavy)',reps:'6',weight:'10kg'}
-      ]},
-      {label:'Finisher · 45-15 or 60-30 track',note:'',exercises:[
-        {name:'Ski Erg HARD or Burpee Box Jumps',reps:'1 track',weight:'—'},
-        {name:'KB Box Plyo Calf Hops',reps:'1 track',weight:'—'}
-      ]}
-    ]},
-    {id:'strengthB',emoji:'🏋️‍♀️',name:'Full Body 2',type:'gym',blocks:[
-      {label:'Superset 1 · ×2 rounds',note:'Warm-up first: RDL bar 2×12',exercises:[
-        {name:'Sumo Deadlift',reps:'8',weight:'45kg'},
-        {name:'KB Horn Scapula Lift',reps:'8',weight:'6kg'},
-        {name:'SL Calf Raises (new)',reps:CALF_SCHEME,weight:'20kg'}
-      ]},
-      {label:'Superset 2 · ×2 rounds',note:'',exercises:[
-        {name:'Cable Lunge & Row Rotation',reps:'8',weight:'23kg · lvl 17'},
-        {name:'Bulgarian Squats (slight tilt in)',reps:'8',weight:'2×9kg'}
-      ]},
-      {label:'Superset 3 · ×2 rounds',note:'',exercises:[
-        {name:'Single-Arm Lat Pulldown (height 29)',reps:'8',weight:'23kg'},
-        {name:'Single-Arm Press (hold both)',reps:'8',weight:'9kg'}
-      ]},
-      {label:'Finisher · 45-15 or 60-30 track',note:'',exercises:[
-        {name:'Ski Erg HARD or Burpee Box Jumps',reps:'1 track',weight:'—'},
-        {name:'KB Box Plyo Calf Hops',reps:'1 track',weight:'—'}
-      ]}
-    ]},
-    {id:'tempo',emoji:'🔥',name:'Tempo Run + Mini HYROX',type:'cardio',runKey:'tempo',hasOptions:true},
-    {id:'intervals',emoji:'⚡',name:'Intervals Run',type:'cardio',runKey:'intervals'},
-    {id:'longrun',emoji:'🌿',name:'Easy Long Run',type:'cardio',runKey:'long'},
-    {id:'bike',emoji:'🚴‍♀️',name:'Bike (VO2)',type:'cardio',runKey:'bike'},
-    {id:'rest1',emoji:'😴',name:'Rest Day',type:'rest'},
-    {id:'rest2',emoji:'🛁',name:'Rest Day',type:'rest'}
-  ]};
-
-  var RUN_WEEKS={
-    2:{focus:'Building on race week — steady does it',
-       intervals:'10 × 400m @ 4:50 · 90s walk/jog recovery',
-       tempo:'18 min tempo @ 5:15–5:20/km',
-       bike:'5 × 2.5 min hard / 2.5 min easy',
-       long:'55–65 min Zone 2 (6:15–6:45/km)'},
-    3:{focus:'Build week 💪',
-       intervals:'6 × 600m @ 4:50 · 90s recovery',
-       tempo:'20 min tempo @ 5:15/km',
-       bike:'5 × 3 min hard / 3 min easy',
-       long:'60–70 min Zone 2'},
-    4:{focus:'Reps get longer — hold your nerve',
-       intervals:'5 × 800m @ 4:50–4:55 · 2 min recovery',
-       tempo:'2 × 12 min @ 5:12–5:15 · 3 min jog between',
-       bike:'6 × 3 min hard / 3 min easy',
-       long:'60–70 min Zone 2'},
-    5:{focus:'Last big week before Greece 🇬🇷 — earn that sunbed',
-       intervals:'6 × 800m @ 4:50 · 2 min recovery',
-       tempo:'22 min tempo @ 5:12–5:15/km',
-       bike:'6 × 3 min hard / 3 min easy',
-       long:'60–70 min Zone 2'}
-  };
-
-  var HYROX_OPTIONS=[
-    '25 Wallballs + 200m Run — ×4 rounds',
-    '20 Wallballs + 10 Burpee Broad Jumps — ×3 rounds',
-    '25 Wallballs + 1 min skipping — ×3–4 rounds'
-  ];
-
-  /* ---------- storage helpers ---------- */
-  function load(key,fallback){
-    try{var v=localStorage.getItem(key);return v?JSON.parse(v):fallback;}
-    catch(e){return fallback;}
-  }
-  function save(key,val){
-    try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}
-  }
-
-  /* ---------- week key (Mon-based) ---------- */
-  function mondayOf(d){
-    var x=new Date(d);var day=(x.getDay()+6)%7;
-    x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x;
-  }
+  function load(k,f){try{var v=localStorage.getItem(k);return v?JSON.parse(v):f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  function mondayOf(d){var x=new Date(d);var day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x;}
   var monday=mondayOf(new Date());
-  var WEEK_KEY='manda-ticks-'+monday.getFullYear()+'-'+String(monday.getMonth()+1).padStart(2,'0')+'-'+String(monday.getDate()).padStart(2,'0');
+  var TICK_KEY='manda-str-ticks-'+monday.getFullYear()+'-'+String(monday.getMonth()+1).padStart(2,'0')+'-'+String(monday.getDate()).padStart(2,'0');
 
-  var plan=load(PLAN_KEY,null)||JSON.parse(JSON.stringify(DEFAULT_PLAN));
-
-  /* gentle migration: make sure saved plans get the calf hops finisher */
-  plan.sessions.forEach(function(s){
-    if(s.type==='gym'&&s.blocks&&s.blocks.length){
-      var fin=s.blocks[s.blocks.length-1];
-      var has=fin.exercises.some(function(e){return /calf hops/i.test(e.name);});
-      if(!has)fin.exercises.push({name:'KB Box Plyo Calf Hops',reps:'1 track',weight:'—'});
-    }
-  });
-  save(PLAN_KEY,plan);
-
-  var ticks=load(WEEK_KEY,{done:{},ex:{}});
-  var planWeek=load(WEEKSEL_KEY,2);
-  if(!RUN_WEEKS[planWeek])planWeek=2;
-  var openCards={};
-
-  /* ---------- header ---------- */
-  document.getElementById('weekLabel').textContent=
-    'Week commencing Mon '+monday.toLocaleDateString('en-GB',{day:'numeric',month:'long'});
-
-  function updateProgress(){
-    var wk=hxBuild(hxWeek);
-    var workouts=wk.sessions.filter(function(s){return s.type!=='rest';});
-    var done=workouts.filter(function(s){return ticks.done['hx-'+s.id];}).length;
-    document.getElementById('progText').textContent=done+' / '+workouts.length;
-    document.getElementById('progBar').style.width=(workouts.length?done/workouts.length*100:0)+'%';
-    document.getElementById('smashed').className='smashed'+(workouts.length&&done===workouts.length?' show':'');
-  }
-
-  /* ---------- week selector ---------- */
-  function renderWeekSel(){
-    var chips=document.getElementById('weekChips');
-    chips.innerHTML='';
-    [2,3,4,5].forEach(function(w){
-      var b=document.createElement('button');
-      b.className='chip'+(w===planWeek?' active':'');
-      b.textContent='Wk '+w;
-      b.onclick=function(){planWeek=w;save(WEEKSEL_KEY,w);renderWeekSel();render();};
-      chips.appendChild(b);
-    });
-    document.getElementById('weekFocus').textContent=RUN_WEEKS[planWeek].focus;
-  }
-
-  /* ---------- render ---------- */
-  var box=document.getElementById('sessions');
-
-  function render(){
-    box.innerHTML='';
-    plan.sessions.forEach(function(s){
-      var card=document.createElement('div');
-      card.className='card'+(s.type==='rest'?' rest':'')+(ticks.done[s.id]?' done':'');
-
-      var head=document.createElement('div');
-      head.className='card-head';
-
-      var em=document.createElement('div');em.className='emoji';em.textContent=s.emoji;
-      var tb=document.createElement('div');tb.className='titlebox';
-      var nm=document.createElement('div');nm.className='name';nm.textContent=s.name;
-      tb.appendChild(nm);
-
-      var expandable=false;
-      if(s.type==='gym'){
-        expandable=true;
-        var sub=document.createElement('div');sub.className='sub';
-        sub.textContent=s.blocks.length-1+' supersets + finisher · tap to open';
-        tb.appendChild(sub);
-      }else if(s.type==='cardio'){
-        var sub2=document.createElement('div');sub2.className='sub';
-        sub2.textContent=RUN_WEEKS[planWeek][s.runKey];
-        tb.appendChild(sub2);
-        if(s.hasOptions)expandable=true;
-      }
-      head.appendChild(em);head.appendChild(tb);
-
-      if(expandable){
-        var chev=document.createElement('button');
-        chev.className='chev'+(openCards[s.id]?' open':'');
-        chev.textContent='▾';
-        chev.onclick=function(e){e.stopPropagation();openCards[s.id]=!openCards[s.id];render();};
-        head.appendChild(chev);
-        head.style.cursor='pointer';
-        head.onclick=function(){openCards[s.id]=!openCards[s.id];render();};
-      }
-
-      var tick=document.createElement('button');
-      tick.className='tick'+(ticks.done[s.id]?' on':'');
-      tick.textContent='✓';
-      tick.onclick=function(e){
-        e.stopPropagation();
-        ticks.done[s.id]=!ticks.done[s.id];
-        save(WEEK_KEY,ticks);render();
-      };
-      head.appendChild(tick);
-      card.appendChild(head);
-
-      /* --- gym expansion: superset blocks --- */
-      if(s.type==='gym'){
-        var exbox=document.createElement('div');
-        exbox.className='exercises'+(openCards[s.id]?' open':'');
-
-        /* warm-up pick list */
-        var wu=document.createElement('div');wu.className='block';
-        var wul=document.createElement('div');wul.className='block-label';
-        wul.textContent='Warm-up · pick what you fancy';
-        wu.appendChild(wul);
-        var wuList=document.createElement('div');
-        WARMUP_OPTIONS.forEach(function(o){
-          var it=document.createElement('div');it.className='wu-item';it.textContent=o;
-          wuList.appendChild(it);
-        });
-        wu.appendChild(wuList);
-        exbox.appendChild(wu);
-
-        s.blocks.forEach(function(blk,bi){
-          var bdiv=document.createElement('div');bdiv.className='block';
-          var bl=document.createElement('div');bl.className='block-label';bl.textContent=blk.label;
-          bdiv.appendChild(bl);
-          if(blk.note){
-            var bn=document.createElement('div');bn.className='block-note';bn.textContent=blk.note;
-            bdiv.appendChild(bn);
-          }
-
-          blk.exercises.forEach(function(ex,i){
-            var exKey=s.id+'-'+bi+'-'+i;
-            var row=document.createElement('div');
-            row.className='ex-row'+(ticks.ex[exKey]?' exdone':'');
-
-            var et=document.createElement('button');
-            et.className='extick'+(ticks.ex[exKey]?' on':'');
-            et.textContent='✓';
-            et.onclick=function(){
-              ticks.ex[exKey]=!ticks.ex[exKey];
-              save(WEEK_KEY,ticks);render();
-            };
-            row.appendChild(et);
-
-            var main=document.createElement('div');main.className='ex-main';
-            var nameInp=document.createElement('input');
-            nameInp.type='text';nameInp.className='ex-name';nameInp.value=ex.name;
-            nameInp.oninput=function(){ex.name=nameInp.value;save(PLAN_KEY,plan);};
-            main.appendChild(nameInp);
-
-            var subrow=document.createElement('div');subrow.className='ex-sub';
-            [['reps','Reps','ex-reps'],['weight','Weight','ex-weight']].forEach(function(f){
-              var lab=document.createElement('span');lab.className='lab';lab.textContent=f[1];
-              var inp=document.createElement('input');
-              inp.type='text';inp.className=f[2];inp.value=ex[f[0]];
-              inp.oninput=function(){ex[f[0]]=inp.value;save(PLAN_KEY,plan);};
-              subrow.appendChild(lab);subrow.appendChild(inp);
-            });
-            main.appendChild(subrow);
-            row.appendChild(main);
-
-            var del=document.createElement('button');
-            del.className='exdel';del.textContent='✕';del.title='Remove exercise';
-            del.onclick=function(){
-              if(confirm('Remove "'+ex.name+'"?')){
-                blk.exercises.splice(i,1);save(PLAN_KEY,plan);render();
-              }
-            };
-            row.appendChild(del);
-            bdiv.appendChild(row);
-          });
-
-          var add=document.createElement('button');
-          add.className='addex';add.textContent='+ Add exercise';
-          add.onclick=function(){
-            blk.exercises.push({name:'New exercise',reps:'8',weight:''});
-            save(PLAN_KEY,plan);render();
-          };
-          bdiv.appendChild(add);
-          exbox.appendChild(bdiv);
-        });
-        card.appendChild(exbox);
-      }
-
-      /* --- tempo expansion: mini HYROX options --- */
-      if(s.type==='cardio'&&s.hasOptions){
-        var det=document.createElement('div');
-        det.className='detail'+(openCards[s.id]?' open':'');
-        var lab=document.createElement('div');lab.className='opt-label';
-        lab.textContent='Mini HYROX drills · pick one';
-        det.appendChild(lab);
-        var ul=document.createElement('ul');
-        HYROX_OPTIONS.forEach(function(o){
-          var li=document.createElement('li');li.textContent=o;ul.appendChild(li);
-        });
-        det.appendChild(ul);
-        card.appendChild(det);
-      }
-
-      box.appendChild(card);
-    });
-    updateProgress();
-  }
-
-  /* ---------- reset ---------- */
-  document.getElementById('resetWeek').onclick=function(){
-    if(confirm('Untick everything for this week? (Weights & reps stay saved)')){
-      ticks={done:{},ex:{}};save(WEEK_KEY,ticks);render();
-    }
-  };
-
-  /* ================= HYROX BLOCK ================= */
-  var HX_PLAN_KEY='manda-hyrox-plan-v3';
-  var HX_WEEKSEL_KEY='manda-hyrox-week';
-  var HX_START=new Date(2026,7,17);   /* Mon 17 Aug 2026 */
-  var HX_TOTAL=11;
-  var HX_FIRST=4;
-
-  var LOWER_WARM=[
-    'Inchworm to world’s greatest stretch',
+  var WARM=[
+    "Inchworm to world's greatest stretch",
     'Side plank abduction',
-    'Airplane RDL warmup',
-    'Bag drag',
-    'ON TOES farmers carry'
+    'Farmers carry',
+    'Lateral tempo SL hops',
+    'Single-leg skater jumps'
   ];
-  var HYROX_WARM=[
-    'Inchworm to world’s greatest stretch',
-    'Side plank abduction',
-    'Light DB goblet squat 3×15 — speed + full ROM, 30s rest',
-    'Toes farmers carry'
-  ];
-  var HX_SLED=[
-    {name:'Sled Push 10m',reps:'4 ×',weight:'> race wt, rest each end'},
-    {name:'Sled Pull 10m',reps:'4 ×',weight:'> race wt, rest each end'},
-    {name:'Walking Lunges',reps:'2 × 2 min',weight:'heavy KB e/s'},
-    {name:'Burpee Box Jumps',reps:'4 × 1 min',weight:'—'}
-  ];
-  var HX_CARDIO={label:'15 min Cardio Mix',note:'',exercises:[
-    {name:'Rower / Ski Erg / Bike or Air Bike',reps:'15 min',weight:'—'}
-  ]};
 
-  var HX_SUPERSET={label:'Superset',note:'',exercises:[
-    {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'},
-    {name:'DB Thruster 3×10 or Rotation Thrusters 3×6',reps:'—',weight:'9kg'}
-  ]};
-  var HX_AMRAP={label:'Conditioning · 15-min AMRAP',note:'',exercises:[
-    {name:'SKI',reps:'20 kcal',weight:'—'},
-    {name:'ROW',reps:'20 kcal',weight:'—'},
-    {name:'ECHO bike',reps:'20 kcal',weight:'—'},
-    {name:'Wall balls',reps:'15',weight:'—'}
-  ]};
-
-  var HX_GYM_DEFAULT={
-    lowerA:{warmup:LOWER_WARM,blocks:[
-      {label:'Main block · Week A',note:'',exercises:[
-        {name:'Barbell Squat (deep)',reps:'3×6',weight:'35kg'},
-        {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'}
+  var GYM_DEFAULT={
+    fullA:{warmup:WARM,blocks:[
+      {label:'Main',exercises:[
+        {name:'Barbell Squat (deep)',reps:'3 x 6',weight:'30kg'},
+        {name:'Calf Isometrics + Raises',reps:'3 x 15s + 8 e/s',weight:'20kg'}
       ]},
-      {label:'Superset',note:'',exercises:[
-        {name:'Single Leg Hip Thrust',reps:'3×5 e/s',weight:'7kg'},
-        {name:'Lunge Hold and Row (L17)',reps:'3×5',weight:''}
+      {label:'Superset x3',exercises:[
+        {name:'Split Squats',reps:'3 x 6 e/s',weight:'2 x 8kg'},
+        {name:'Chest Press / Push-ups',reps:'3 x 8',weight:''}
       ]},
-      JSON.parse(JSON.stringify(HX_AMRAP))
+      {label:'Conditioning - 45-15',exercises:[
+        {name:'Overhead Ball Slams',reps:'4 x 45s',weight:''},
+        {name:'Burpee Box Jumps',reps:'4 x 45s',weight:'-'}
+      ]}
     ]},
-    lowerB:{warmup:LOWER_WARM,blocks:[
-      {label:'Main block · Week B',note:'',exercises:[
-        {name:'Sumo Deadlift',reps:'3×6',weight:'50kg'},
-        {name:'Heavy Calf Combo KB',reps:'×3 e/s',weight:'20kg'}
+    fullB:{warmup:WARM,blocks:[
+      {label:'Main',exercises:[
+        {name:'Deadlift',reps:'3 x 6',weight:'45kg'},
+        {name:'Calf Isometrics + Eccentrics',reps:'3 x 15s + 5 slow e/s',weight:'20kg'}
       ]},
-      {label:'Superset',note:'',exercises:[
-        {name:'Split Squats with Rotation',reps:'3×5 e/s',weight:'2×9kg'},
-        {name:'DB Thruster 3×8 or Rotation Thrusters 3×5',reps:'—',weight:'2×10kg'}
+      {label:'Superset x3',exercises:[
+        {name:'One-Leg Hip Thrust',reps:'3 x 6 e/s',weight:'9kg'},
+        {name:'Inverted Rows',reps:'3 x 8',weight:'bodyweight'}
       ]},
-      JSON.parse(JSON.stringify(HX_AMRAP))
-    ]},
-    hyroxA:{warmup:HYROX_WARM,blocks:[
-      {label:'HYROX Strength',note:'',exercises:JSON.parse(JSON.stringify(HX_SLED))},
-      {label:'Upper Superset · Week A',note:'',exercises:[
-        {name:'Single Arm Lat Pulldown (L29)',reps:'3×5 e/s',weight:''},
-        {name:'Single Arm Overhead Press',reps:'3×5 e/s',weight:''}
-      ]},
-      JSON.parse(JSON.stringify(HX_CARDIO))
-    ]},
-    hyroxB:{warmup:HYROX_WARM,blocks:[
-      {label:'HYROX Strength',note:'',exercises:JSON.parse(JSON.stringify(HX_SLED))},
-      {label:'Upper Superset · Week B',note:'',exercises:[
-        {name:'Eccentric Pull-Ups',reps:'3 × max',weight:''},
-        {name:'Single Arm Overhead Press',reps:'3×5 e/s',weight:''}
-      ]},
-      JSON.parse(JSON.stringify(HX_CARDIO))
+      {label:'Superset x3',exercises:[
+        {name:'KB Gorilla Rows',reps:'3 x 8',weight:'2 x 12kg'},
+        {name:'Thrusters / Wall Balls',reps:'3 x 12',weight:'2 x 8kg'}
+      ]}
     ]}
   };
 
-  var hxGym=load(HX_PLAN_KEY,null)||JSON.parse(JSON.stringify(HX_GYM_DEFAULT));
-  var hxWeek=load(HX_WEEKSEL_KEY,HX_FIRST);
-  if(hxWeek<HX_FIRST||hxWeek>HX_TOTAL)hxWeek=HX_FIRST;
-  var hxOpen={};
-
-  var HX_COMP={
-    2:{r:'1 round',b:'25m',km:'1.6km'},3:{r:'2 rounds',b:'25m',km:'3.2km'},
-    4:{r:'2 rounds',b:'25m',km:'3.2km'},5:{r:'2 rounds',b:'25m',km:'3.2km'},
-    8:{r:'3 rounds',b:'20m',km:'4.8km'},9:{r:'3 rounds',b:'20m',km:'4.8km'},
-    10:{r:'3–4 rounds',b:'20m',km:'4.8–6.4km'}
+  var THRESH={
+    2:{set:'4 x 5 min',rest:'90s',spd:'10.6',pace:'5:40',tot:'20 min'},
+    3:{set:'5 x 5 min',rest:'90s',spd:'10.6',pace:'5:40',tot:'25 min'},
+    4:{set:'6 x 5 min',rest:'60s',spd:'10.7',pace:'5:36',tot:'30 min',note:' - peak week'},
+    5:{set:'5 x 5 min',rest:'90s',spd:'10.7',pace:'5:36',tot:'25 min'}
   };
 
-  function compLines(n){
-    var c=HX_COMP[n]||{r:'2 rounds',b:'25m'};
-    var R8='800m run @ 5:30/km';
-    var R4='400m run @ 5:00/km';
-    return [R8,'20 wall balls','20 front rack DB walking lunges',
-      R4,c.b+' burpee broad jumps','⏸ 2 min rest',
-      '20 wall balls','20 front rack DB walking lunges',
-      R4,c.b+' burpee broad jumps',
-      '↻ '+c.r+' — the 800m opens every round',
-      'Paces set by Lucy — well faster than race pace by design',
-      '⚠️ HR will run high. 180 is the ceiling — ease off if you go through it'];
-  }
-  function compSub(n){
-    var c=HX_COMP[n]||{r:'2 rounds'};
-    return c.r+(c.km?' · '+c.km+' running':'');
-  }
-
-  var HX_THRESH_HR={
-    5:{set:'2 × 8 min',rest:'2 min',work:'16 min',pace:'5:40/km',note:' — first one back, settle into it'},
-    6:{set:'3 × 8 min',rest:'2 min',work:'24 min',pace:'5:40/km'},
-    7:{set:'2 × 6 min',rest:'2 min',work:'12 min',pace:'5:40/km',note:' — deload: shorter, same pace'},
-    8:{set:'3 × 10 min',rest:'2 min',work:'30 min',pace:'5:35/km'},
-    9:{set:'3 × 10 min',rest:'2 min',work:'30 min',pace:'5:35/km'},
-    10:{set:'3 × 10 min',rest:'2 min',work:'30 min',pace:'5:30/km',note:' — sharpest of the block'}
-  };
-  var INTERVALS=['3km @ 5:45/km','⏸ 3 min recovery',
-    '5 min @ 4:35–4:45','4 min @ 4:35–4:45','3 min @ 4:35–4:45','2 min @ 4:35–4:45','1 min @ 4:35–4:45',
-    '60s rest after every rep','Same session every week — trust it'];
-
-  var CORE=['— core × 3, 60s rest —','Side plank 30s × 2','Side plank shoulder taps 30s × 2','Side plank adduction 30s × 2 e/s'];
+  var CORE=['- core x3, 60s rest -','Side plank 30s x 2','Side plank shoulder taps 30s x 2','Side plank adduction 30s x 2 e/s'];
 
   function threshLines(n){
-    var h=HX_THRESH_HR[n]||HX_THRESH_HR[5];
-    return ['10–15 min easy warm-up','— MAIN SET —',
-      h.set+' @ '+h.pace,
-      '⏸ '+h.rest+' rest between reps',
-      'Pace is the target · HR is the sanity check',
-      '🫀 Should settle around 158–168 bpm',
-      '⚠️ Above 172 at that pace = ease off',
-      '10–15 min easy cool-down',
-      'Work '+h.work+' @ '+h.pace+(h.note||''),
-      'Even splits — if rep 1 is the quickest, you went off too hard'
+    var t=THRESH[n];
+    return ['10-15 min easy warm-up','- MAIN SET -',
+      t.set+' at '+t.spd+' km/h  ('+t.pace+'/km)',
+      'Treadmill at 1% incline',
+      'Rest '+t.rest+' between reps',
+      '🫀 164-168 bpm',
+      '⚠️ Over 170 = slow it down, that is not threshold',
+      '10-15 min easy cool-down',
+      'Time at threshold: '+t.tot+(t.note||'')
     ].concat(CORE);
   }
 
-  function threshSub(n){
-    var h=HX_THRESH_HR[n]||HX_THRESH_HR[5];
-    return h.set+' @ '+h.pace;
-  }
-
-    function hxDates(n){
-    var s=new Date(HX_START);s.setDate(s.getDate()+(n-1)*7);
+  function dates(n){
+    var s=new Date(START);s.setDate(s.getDate()+(n-1)*7);
     var e=new Date(s);e.setDate(e.getDate()+6);
     var f={day:'numeric',month:'short'};
-    return s.toLocaleDateString('en-GB',f)+' – '+e.toLocaleDateString('en-GB',f);
+    return s.toLocaleDateString('en-GB',f)+' - '+e.toLocaleDateString('en-GB',f);
   }
 
-  function hxBuild(n){
-    var letter=(n%2===1)?'A':'B';
-    var lowerKey=(letter==='A')?'lowerA':'lowerB';
-    var hyroxKey=(letter==='A')?'hyroxA':'hyroxB';
-
-    if(n===11){
-      return {focus:'🎯 Week 8 · taper — race Sunday 1 Nov',
-        note:'Hard work early, nothing but easing off after Wednesday. Controlled efforts only — these are sharpeners.',
+  function build(n){
+    if(n===1){
+      return {focus:'🤒 Easing back - both optional',
+        note:'Both sessions are here if you want them. <b>No running this week.</b> Go on feel and stop if it bites - judge it by how you feel the next morning, not during.',
         sessions:[
-          {day:'Mon 26',id:'w11rrt',emoji:'🏁',name:'Race Run Through',type:'detail',lines:[
-            '1000m run @ race pace, then 3 rounds:','1 min ski','1 min sled push','1 min sled pull','1 min burpee BJ',
-            '2 min run','1 min row','1 min farmers carry','1 min sandbag lunge','1 min wall balls','⏸ Rest 2 min between rounds']},
-          {day:'Tue 27',id:'w11str',emoji:'💪',name:'Strength & 30 min Zone 2',type:'detail',lines:['Light full-body — well short of failure','30 min Zone 2 easy']},
-          {day:'Wed 28',id:'w11drop',emoji:'⚡',name:'Cardio Dropsets',type:'detail',lines:[
-            'Run – Ski – Row','1000m of each · rest 1–2 min','600m of each · rest 1–2 min','400m of each · rest 1–2 min',
-            'Bike easy 15–20 min','⚠️ Controlled only — drop the 1000s if in doubt']},
-          {day:'Thu 29',id:'w11r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Fri 30',id:'w11easy',emoji:'🌿',name:'Easy Aerobic',type:'detail',lines:['Easy run / cycle / erg','20–30 min + a few strides']},
-          {day:'Sat 31',id:'w11r2',emoji:'🛁',name:'Rest Day',type:'rest'},
-          {day:'Sun 1 Nov',id:'w11race',emoji:'🏆',name:'RACE DAY',type:'race',lines:[
-            'Target 1:33–1:35 · last time 1:42:44',
-            '🏃 Runs: 6:05 · 6:05 · 5:57 · 5:57 · 5:57 · 5:47 · 5:47 · 5:47',
-            'Average 5:55 — that is six minutes off your running alone',
-            'Run 2 is where it is won. Hit 6:05 there, not 6:40',
-            'Sled pull: last time 6:08 and it wrecked run 4. Break it early, keep moving',
-            'Roxzone: 16 passes. Know where you are going before you get there',
-            'Everything is already banked. Go get it 🔥']}
+          {id:'a',emoji:'🔵',name:'Session A - Squat',type:'gym',gym:'fullA',note:'⚠️ Optional - go light, stop if it bites'},
+          {id:'b',emoji:'🔴',name:'Session B - Deadlift',type:'gym',gym:'fullB',note:'⚠️ Optional - go light, stop if it bites'}
         ]};
     }
-
-    if(n===4){
-      return {focus:'🚴 Week 1 · spin week — building back',
-        note:'Two spin classes in for instructor training. Tuesday spin replaces the threshold. Thursday spin covers the cardio, so leave the Cardio Mix off the gym session.',
-        sessions:[
-          {day:'Mon 7',id:'w4low',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey},
-          {day:'Tue 8',id:'w4spin1',emoji:'🚴',name:'Spin Class',type:'detail',sub:'replaces threshold this week',lines:['Spin class — instructor training','Replaces the threshold run this week','Watch how the class is built and how the music is used']},
-          {day:'Wed 9',id:'w4r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Thu 10',id:'w4spin2',emoji:'🚴',name:'Spin Class',type:'detail',sub:'same day as the gym session',lines:['Spin class — instructor training','This is your cardio for the day']},
-          {day:'Thu 10',id:'w4hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:'⚠️ Leave the 15 min Cardio Mix OFF this week — spin has covered it'},
-          {day:'Fri 11',id:'w4comp',emoji:'🥵',name:'Compromised — 2 rounds',type:'detail',sub:compSub(4),lines:compLines(4)},
-          {day:'Sat 12',id:'w4r2',emoji:'🛁',name:'Rest Day',type:'rest'},
-          {day:'Sun 13',id:'w4tenk',emoji:'🏔️',name:'Hilly 10K — run/walk',type:'detail',sub:'counts as the long run',
-           lines:['5km up, 5km down','WALK the descents — that is where the damage is','No watch, no pace','A day out, not a session']}
-        ]};
-    }
-
-    if(n===6){
-      return {focus:'🏁 Week 3 · doubles Sat 26 Sep',
-        note:'The doubles IS the compromised session this week — 8 × 600m, 4.8km, stations split. Lower strength drops out: the doubles is the leg session. Fixed points are Friday rest and Saturday doubles — shuffle Mon to Wed if you want.',
-        sessions:[
-          {day:'Mon 21',id:'w6hx',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey},
-          {day:'Tue 22',id:'w6thresh',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(6),sub:threshSub(6)},
-          {day:'Wed 23',id:'w6long',emoji:'🌿',name:'Easy Long Run',type:'detail',sub:'60 min Z2',lines:['60 min Zone 2','6:15–6:45/km — genuinely easy']},
-          {day:'Thu 24',id:'w6r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Fri 25',id:'w6r2',emoji:'😴',name:'Rest Day',type:'rest'},
-          {day:'Sat 26',id:'w6race',emoji:'🏁',name:'HYROX DOUBLES',type:'race',lines:[
-            '8 × 600m runs — 4.8km total',
-            'Stations split with your partner',
-            'This counts as your compromised session',
-            'Same running as a 3-round compromised — a proper reference point',
-            'Practise the roxzone — 16 passes, know where you are going',
-            'A training day, not a target 💪']},
-          {day:'Sun 27',id:'w6r3',emoji:'🛁',name:'Rest Day',type:'rest'}
-        ]};
-    }
-
-    if(n===7){
-      return {focus:'🔽 Week 4 · DELOAD — after the doubles',
-        note:'Volume down, intensity held. Loads stay exactly the same — only sets and minutes come down. No compromised this week: that is your third rest day. Any order.',
-        sessions:[
-          {id:'w7low',emoji:'🦵',name:'Lower Strength — deload',type:'gym',gym:lowerKey,note:'⚠️ DELOAD · main lift 2 sets not 3 — SAME load · superset 1 round not 2 · skip the AMRAP'},
-          {id:'w7hx',emoji:'🎯',name:'HYROX & Upper — deload',type:'gym',gym:hyroxKey,note:'⚠️ DELOAD · superset 2 sets not 3 — SAME load · sleds AT race weight, not above · Cardio Mix 8 min not 15'},
-          {id:'w7thresh',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(7),sub:threshSub(7)},
-          {id:'w7long',emoji:'🌿',name:'Easy Long Run — deload',type:'detail',sub:'35 min Z2',lines:['35 min Zone 2','6:15–6:45/km — same easy pace, just shorter']},
-          {id:'w7r1',emoji:'😴',name:'Rest Day',type:'rest'},
-          {id:'w7r2',emoji:'🛁',name:'Rest Day',type:'rest'},
-          {id:'w7r3',emoji:'😌',name:'Rest Day — instead of compromised',type:'rest'}
-        ]};
-    }
-
-    var focus,note;
-    focus='Week '+(n-HX_FIRST+1)+' · Strength Week '+letter+' ('+(letter==='A'?'Squat':'Deadlift')+')';
-    note='Fixed shape now — Lower stacks onto threshold day so the Compromised gets 48h clear of heavy lifting.';
-    if(n===5)note='📈 Threshold block starts — 2 × 8 min @ 5:40. Settle into it, do not race it. Compromised stays at 2 rounds.';
-    if(n===8)note='💪 Back up after the deload. Compromised jumps to 3 rounds — 4.8km, the same running as the doubles. Threshold to 3 × 10 @ 5:35.';
-    if(n===9)note='🔥 Holding 3 × 10 @ 5:35. Compromised stays at 3 rounds. This is the week the work banks.';
-    if(n===10)note='⚡ Last big week before taper. Threshold sharpens to 5:30. Compromised 3 or 4 rounds — let how week 6 felt decide it on the day.';
-
-    var sess=[
-      {day:'Mon',id:'hxlong',emoji:'🌿',name:'Easy Long Run',type:'detail',sub:'60 min Z2',lines:['60 min Zone 2','6:15–6:45/km — genuinely easy','Legs will be off Sunday sleds — that is fine, keep it slow']},
-      {day:'Tue',id:'hxr1',emoji:'😴',name:'Rest Day',type:'rest'},
-      {day:'Wed',id:'hxtempo',emoji:'🔥',name:'Threshold Run & Core',type:'detail',lines:threshLines(n),sub:threshSub(n)},
-      {day:'Wed',id:'hxlow',emoji:'🦵',name:'Lower Strength & Conditioning',type:'gym',gym:lowerKey,note:'⚠️ AFTER the threshold — always run first. Leave 3–4 hrs between them if the day allows'},
-      {day:'Thu',id:'hxr2',emoji:'🛁',name:'Rest Day',type:'rest'},
-      {day:'Fri',id:'hxcomp',emoji:'🥵',name:'Compromised',type:'detail',lines:compLines(n),sub:compSub(n)},
-      {day:'Sat',id:'hxr3',emoji:'😴',name:'Rest Day',type:'rest'},
-      {day:'Sun',id:'hxupper',emoji:'🎯',name:'HYROX & Upper Strength',type:'gym',gym:hyroxKey,note:''}
-    ];
-    return {focus:focus,note:note,sessions:sess};
+    var t=THRESH[n];
+    var notes={
+      2:'📈 Deficit starts. Threshold comes back short at 4 x 5 min - first proper week back, do not chase it.',
+      3:'Volume up to 25 min. Same pace, one more rep.',
+      4:'🔥 Peak week. 30 min at threshold off 60-second rests - a harder session than your 3 x 10 PB.',
+      5:'Easing back while the pump classes pile up. Last week before the HYROX block starts 7 Dec.'
+    };
+    return {focus:'Block week '+(n-1)+' of 4',
+      note:notes[n],
+      sessions:[
+        {id:'a',emoji:'🔵',name:'Session A - Squat',type:'gym',gym:'fullA'},
+        {id:'b',emoji:'🔴',name:'Session B - Deadlift',type:'gym',gym:'fullB'},
+        {id:'thr',emoji:'🔥',name:'Threshold + Core',type:'detail',sub:t.set+' at '+t.spd+' km/h',lines:threshLines(n)},
+        {id:'easy',emoji:'🌿',name:'Easy Run',type:'detail',sub:'40-50 min Z2',lines:['40-50 min Zone 2','6:15-6:45/km - genuinely easy','No watch-watching']},
+        {id:'spin',emoji:'🚴',name:'Spin',type:'detail',sub:'teaching',lines:['You are teaching this one','It counts as a session, not a rest day']},
+        {id:'pump',emoji:'🏋️',name:'BodyPump',type:'detail',sub:'teaching - smaller muscles',lines:['You are teaching this one','Use it for the smaller muscles','Cover finishes the first week of Dec']}
+      ]};
   }
 
-  function hxRenderChips(){
-    var c=document.getElementById('hxChips');
+  var gym=load(PLAN_KEY,null)||JSON.parse(JSON.stringify(GYM_DEFAULT));
+  var ticks=load(TICK_KEY,{done:{},ex:{}});
+  var week=load(WEEKSEL_KEY,1);
+  if(week<1||week>TOTAL)week=1;
+  var open={};
+
+  document.getElementById('weekLabel').textContent='Week commencing Mon '+monday.toLocaleDateString('en-GB',{day:'numeric',month:'long'});
+
+  function updateProgress(){
+    var wk=build(week);
+    var tot=wk.sessions.length;
+    var done=wk.sessions.filter(function(s){return ticks.done[s.id];}).length;
+    document.getElementById('progText').textContent=done+' / '+tot;
+    document.getElementById('progBar').style.width=(tot?done/tot*100:0)+'%';
+    document.getElementById('smashed').className='smashed'+(tot&&done===tot?' show':'');
+  }
+
+  function renderChips(){
+    var c=document.getElementById('chips');
     c.innerHTML='';
-    for(var i=HX_FIRST;i<=HX_TOTAL;i++){
+    for(var i=1;i<=TOTAL;i++){
       (function(w){
         var b=document.createElement('button');
-        b.className='chip'+(w===hxWeek?' active':'');
-        b.textContent=(w===HX_TOTAL?'🏁':'W'+(w-HX_FIRST+1));
-        b.onclick=function(){hxWeek=w;save(HX_WEEKSEL_KEY,w);hxOpen={};hxRenderChips();hxRender();};
+        b.className='chip'+(w===week?' active':'');
+        b.textContent=(w===1?'NOW':String(w-1));
+        b.onclick=function(){week=w;save(WEEKSEL_KEY,w);open={};renderChips();render();};
         c.appendChild(b);
       })(i);
     }
-    var wk=hxBuild(hxWeek);
-    var left=HX_TOTAL-hxWeek+1;
-    document.getElementById('hxFocus').textContent=
-      hxDates(hxWeek)+' · '+(left===1?'RACE WEEK 🏁':left+' weeks to go');
+    var days=Math.ceil((RACE-new Date())/86400000);
+    document.getElementById('focus').textContent=dates(week)+'  ·  '+days+' days to Manchester';
   }
 
-  function hxRender(){
-    var wk=hxBuild(hxWeek);
-    var nb=document.getElementById('hxNote');
+  function render(){
+    var wk=build(week);
+    var nb=document.getElementById('note');
     nb.innerHTML='';
     var fo=document.createElement('div');fo.className='wk-note';
     fo.innerHTML='<b>'+wk.focus+'</b>'+(wk.note?'<br>'+wk.note:'');
     nb.appendChild(fo);
 
-    var box2=document.getElementById('hxSessions');
-    box2.innerHTML='';
+    var box=document.getElementById('sessions');
+    box.innerHTML='';
 
     wk.sessions.forEach(function(s){
-      var key='hx-'+s.id;
       var card=document.createElement('div');
-      card.className='card'+(s.type==='rest'?' rest':'')+(s.type==='race'?' raceday':'')+(ticks.done[key]?' done':'');
+      card.className='card'+(ticks.done[s.id]?' done':'');
 
       var head=document.createElement('div');head.className='card-head';
       var em=document.createElement('div');em.className='emoji';em.textContent=s.emoji;
       var tb=document.createElement('div');tb.className='titlebox';
-
-      if(s.day){
-        var dt=document.createElement('div');dt.className='daytag';dt.textContent=s.day;
-        tb.appendChild(dt);
-      }
       var nm=document.createElement('div');nm.className='name';nm.textContent=s.name;
       tb.appendChild(nm);
 
-      var expandable=(s.type==='gym'||s.type==='detail'||s.type==='race');
+      var sb=document.createElement('div');sb.className='sub';
       if(s.type==='gym'){
-        var sb=document.createElement('div');sb.className='sub';
-        sb.textContent=(s.note?s.note:hxGym[s.gym].blocks.length+' blocks · tap to open');
-        tb.appendChild(sb);
-      }else if(s.sub){
-        var sb2=document.createElement('div');sb2.className='sub';
-        sb2.textContent=s.sub+' · tap to open';
-        tb.appendChild(sb2);
-      }else if(s.lines){
-        var sb3=document.createElement('div');sb3.className='sub';
-        sb3.textContent=s.lines[0];
-        tb.appendChild(sb3);
+        sb.textContent=(s.note?s.note:gym[s.gym].blocks.length+' blocks - tap to open');
+      }else{
+        sb.textContent=(s.sub||'')+' - tap to open';
       }
+      tb.appendChild(sb);
 
       head.appendChild(em);head.appendChild(tb);
 
-      if(expandable){
-        var chev=document.createElement('button');
-        chev.className='chev'+(hxOpen[s.id]?' open':'');
-        chev.textContent='▾';
-        chev.onclick=function(e){e.stopPropagation();hxOpen[s.id]=!hxOpen[s.id];hxRender();};
-        head.appendChild(chev);
-        head.style.cursor='pointer';
-        head.onclick=function(){hxOpen[s.id]=!hxOpen[s.id];hxRender();};
-      }
+      var chev=document.createElement('button');
+      chev.className='chev'+(open[s.id]?' open':'');
+      chev.textContent='▾';
+      chev.onclick=function(e){e.stopPropagation();open[s.id]=!open[s.id];render();};
+      head.appendChild(chev);
+      head.style.cursor='pointer';
+      head.onclick=function(){open[s.id]=!open[s.id];render();};
 
       var tk=document.createElement('button');
-      tk.className='tick'+(ticks.done[key]?' on':'');
+      tk.className='tick'+(ticks.done[s.id]?' on':'');
       tk.textContent='✓';
       tk.onclick=function(e){
         e.stopPropagation();
-        ticks.done[key]=!ticks.done[key];
-        save(WEEK_KEY,ticks);hxRender();
+        ticks.done[s.id]=!ticks.done[s.id];
+        save(TICK_KEY,ticks);render();
       };
       head.appendChild(tk);
       card.appendChild(head);
 
       if(s.type==='gym'){
-        var g=hxGym[s.gym];
+        var g=gym[s.gym];
         var exbox=document.createElement('div');
-        exbox.className='exercises'+(hxOpen[s.id]?' open':'');
-
-        if(s.note){
-          var wn=document.createElement('div');wn.className='block';
-          var wnl=document.createElement('div');wnl.className='block-note';
-          wnl.style.fontStyle='normal';wnl.style.fontWeight='600';wnl.textContent=s.note;
-          wn.appendChild(wnl);exbox.appendChild(wn);
-        }
+        exbox.className='exercises'+(open[s.id]?' open':'');
 
         var wu=document.createElement('div');wu.className='block';
         var wul=document.createElement('div');wul.className='block-label';
-        wul.textContent='Warm-up · pick what you fancy';
+        wul.textContent='Warm-up - pick what you fancy';
         wu.appendChild(wul);
         g.warmup.forEach(function(o){
           var it=document.createElement('div');it.className='wu-item';it.textContent=o;
@@ -999,23 +371,20 @@
           bdiv.appendChild(bl);
 
           blk.exercises.forEach(function(ex,i){
-            var exKey='hx-'+s.gym+'-'+bi+'-'+i;
+            var exKey=s.gym+'-'+bi+'-'+i;
             var row=document.createElement('div');
             row.className='ex-row'+(ticks.ex[exKey]?' exdone':'');
 
             var et=document.createElement('button');
             et.className='extick'+(ticks.ex[exKey]?' on':'');
             et.textContent='✓';
-            et.onclick=function(){
-              ticks.ex[exKey]=!ticks.ex[exKey];
-              save(WEEK_KEY,ticks);hxRender();
-            };
+            et.onclick=function(){ticks.ex[exKey]=!ticks.ex[exKey];save(TICK_KEY,ticks);render();};
             row.appendChild(et);
 
             var main=document.createElement('div');main.className='ex-main';
             var nameInp=document.createElement('input');
             nameInp.type='text';nameInp.className='ex-name';nameInp.value=ex.name;
-            nameInp.oninput=function(){ex.name=nameInp.value;save(HX_PLAN_KEY,hxGym);};
+            nameInp.oninput=function(){ex.name=nameInp.value;save(PLAN_KEY,gym);};
             main.appendChild(nameInp);
 
             var subrow=document.createElement('div');subrow.className='ex-sub';
@@ -1023,7 +392,7 @@
               var lab=document.createElement('span');lab.className='lab';lab.textContent=f[1];
               var inp=document.createElement('input');
               inp.type='text';inp.className=f[2];inp.value=ex[f[0]];
-              inp.oninput=function(){ex[f[0]]=inp.value;save(HX_PLAN_KEY,hxGym);};
+              inp.oninput=function(){ex[f[0]]=inp.value;save(PLAN_KEY,gym);};
               subrow.appendChild(lab);subrow.appendChild(inp);
             });
             main.appendChild(subrow);
@@ -1032,8 +401,8 @@
             var del=document.createElement('button');
             del.className='exdel';del.textContent='✕';
             del.onclick=function(){
-              if(confirm('Remove "'+ex.name+'"?')){
-                blk.exercises.splice(i,1);save(HX_PLAN_KEY,hxGym);hxRender();
+              if(confirm('Remove '+ex.name+'?')){
+                blk.exercises.splice(i,1);save(PLAN_KEY,gym);render();
               }
             };
             row.appendChild(del);
@@ -1044,7 +413,7 @@
           add.className='addex';add.textContent='+ Add exercise';
           add.onclick=function(){
             blk.exercises.push({name:'New exercise',reps:'',weight:''});
-            save(HX_PLAN_KEY,hxGym);hxRender();
+            save(PLAN_KEY,gym);render();
           };
           bdiv.appendChild(add);
           exbox.appendChild(bdiv);
@@ -1052,9 +421,9 @@
         card.appendChild(exbox);
       }
 
-      if((s.type==='detail'||s.type==='race')&&s.lines){
+      if(s.type==='detail'&&s.lines){
         var det=document.createElement('div');
-        det.className='detail'+(hxOpen[s.id]?' open':'');
+        det.className='detail'+(open[s.id]?' open':'');
         var ul=document.createElement('ul');
         s.lines.forEach(function(o){
           var li=document.createElement('li');li.textContent=o;ul.appendChild(li);
@@ -1063,29 +432,21 @@
         card.appendChild(det);
       }
 
-      box2.appendChild(card);
+      box.appendChild(card);
     });
     updateProgress();
   }
 
-  document.getElementById('hxResetWeek').onclick=function(){
-    if(confirm('Untick everything for this week? (Weights & reps stay saved)')){
-      ticks={done:{},ex:{}};save(WEEK_KEY,ticks);hxRender();render();
+  document.getElementById('resetBtn').onclick=function(){
+    if(confirm('Untick everything for this week? Weights and reps stay saved.')){
+      ticks={done:{},ex:{}};save(TICK_KEY,ticks);render();
     }
   };
 
-  /* ---------- tabs ---------- */
-  var tabC=document.getElementById('tabCurrent'),tabH=document.getElementById('tabHyrox');
-  var viewC=document.getElementById('currentView'),viewH=document.getElementById('hyroxView');
-  tabC.onclick=function(){tabC.classList.add('active');tabH.classList.remove('active');viewC.style.display='block';viewH.style.display='none';};
-  tabH.onclick=function(){tabH.classList.add('active');tabC.classList.remove('active');viewC.style.display='none';viewH.style.display='block';};
-
-  renderWeekSel();
+  renderChips();
   render();
-  hxRenderChips();
-  hxRender();
 })();
 </script>
-<!-- v13 inline paces -->
+<!-- strength block v1 -->
 </body>
 </html>
